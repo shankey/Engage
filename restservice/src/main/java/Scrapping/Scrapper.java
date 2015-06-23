@@ -20,9 +20,9 @@ public class Scrapper {
 		//userAgent.doc.apply("butterflies");            //apply form input (starting at first editable field)
 		//userAgent.doc.submit("Google Search");         //click submit button labelled "Google Search"
 		     
-		/*System.out.println(parse(input.getAvailabilityPattern(), userAgent) + parse(input.getAvailabilityPattern(), userAgent).getText().trim());
-		System.out.println(parse(input.getPricePattern(), userAgent) + parse(input.getPricePattern(), userAgent).getText());
-		System.out.println(parse(input.getTitlePattern(), userAgent) + parse(input.getTitlePattern(), userAgent).getText());*/
+		System.out.println(parse(input.getAvailabilityPattern(), userAgent) + parse(input.getAvailabilityPattern(), userAgent).getText().trim());
+		System.out.println(parse(input.getListPricePattern(), userAgent) + parse(input.getListPricePattern(), userAgent).getText());
+		System.out.println(parse(input.getTitlePattern(), userAgent) + parse(input.getTitlePattern(), userAgent).getText());
 	}
 	
 	private Element parse(List<StepPattern> steps, UserAgent userAgent) throws NotFound{
