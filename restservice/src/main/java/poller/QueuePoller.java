@@ -1,9 +1,8 @@
 package poller;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
-
-import com.jaunt.JauntException;
 
 import Scrapping.InputConverter;
 import Scrapping.Scrapper;
@@ -14,7 +13,7 @@ import Common.Utility;
 
 public class QueuePoller {
 	
-public void pollDB() throws InterruptedException, JauntException{
+public void pollDB() throws InterruptedException, IOException{
 		
 		UrlDAO dao = new UrlDAO();
 		Scrapper scrapper = new Scrapper();

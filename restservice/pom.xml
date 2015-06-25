@@ -46,11 +46,18 @@
 			<version>5.1.34</version>
 		</dependency>
         
-        <dependency>
+        <!-- <dependency>
     		<groupId>jaunt-parser</groupId>
     		<artifactId>jaunt</artifactId>
-    		<version>0.9.9.9</version>
+    		<version>1.0.0.0</version>
 		</dependency>
+ -->		
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+
 		
 		
     </dependencies>

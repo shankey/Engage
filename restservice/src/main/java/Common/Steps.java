@@ -4,8 +4,9 @@ public enum Steps {
 	
 	FIND_FIRST,
 	PREVIOUS_ELEMENT,
-	NEXT_ELEMENT, // next sibling
+	NEXT_SIBLING_NODE, // next sibling
 	GET_PARENT,
-	NEXT_NODE //next node
+	FIRST_CHILD_NODE, //next node
+	CONTAINS
 
 }

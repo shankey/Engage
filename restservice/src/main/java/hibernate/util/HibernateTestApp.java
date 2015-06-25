@@ -11,7 +11,7 @@ import org.hibernate.Session;
  
 public class HibernateTestApp {
 	
-	public static void main(String[] args) {
+	public static void main2(String[] args) {
 		System.out.println("Maven + Hibernate + Oracle");
 		
  

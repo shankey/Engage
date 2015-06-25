@@ -1,19 +1,20 @@
 package bean;
 
 import java.util.List;
+import java.util.Map;
 
 public class ScrapInput {
 	
 	String url;
-	List<StepPattern> titlePattern;
-	List<StepPattern> sellingPricePattern;
-	List<StepPattern> listPricePattern;
-	List<StepPattern> availabilityPattern;
+	Map<Integer, List<StepPattern>> titlePattern;
+	Map<Integer, List<StepPattern>> sellingPricePattern;
+	Map<Integer, List<StepPattern>> listPricePattern;
+	Map<Integer, List<StepPattern>> availabilityPattern;
 
-	public ScrapInput(String url, List<StepPattern> titlePattern,
-			List<StepPattern> sellingPricePattern,
-			List<StepPattern> listPricePattern,
-			List<StepPattern> availabilityPattern) {
+	public ScrapInput(String url, Map<Integer, List<StepPattern>> titlePattern,
+			Map<Integer, List<StepPattern>> sellingPricePattern,
+			Map<Integer, List<StepPattern>> listPricePattern,
+			Map<Integer, List<StepPattern>> availabilityPattern) {
 		super();
 		this.url = url;
 		this.titlePattern = titlePattern;
@@ -22,84 +23,50 @@ public class ScrapInput {
 		this.availabilityPattern = availabilityPattern;
 	}
 
-
-
-
 	public ScrapInput() {
 		
 	}
-
-
-
 
 	public String getUrl() {
 		return url;
 	}
 
-
-
-
 	public void setUrl(String url) {
 		this.url = url;
 	}
 
-
-
-
-	public List<StepPattern> getTitlePattern() {
+	public Map<Integer, List<StepPattern>> getTitlePattern() {
 		return titlePattern;
 	}
 
-
-
-
-	public void setTitlePattern(List<StepPattern> titlePattern) {
+	public void setTitlePattern(Map<Integer, List<StepPattern>> titlePattern) {
 		this.titlePattern = titlePattern;
 	}
 
-
-
-
-	public List<StepPattern> getSellingPricePattern() {
+	public Map<Integer, List<StepPattern>> getSellingPricePattern() {
 		return sellingPricePattern;
 	}
 
-
-
-
-	public void setSellingPricePattern(List<StepPattern> sellingPricePattern) {
+	public void setSellingPricePattern(
+			Map<Integer, List<StepPattern>> sellingPricePattern) {
 		this.sellingPricePattern = sellingPricePattern;
 	}
 
-
-
-
-	public List<StepPattern> getListPricePattern() {
+	public Map<Integer, List<StepPattern>> getListPricePattern() {
 		return listPricePattern;
 	}
 
-
-
-
-	public void setListPricePattern(List<StepPattern> listPricePattern) {
+	public void setListPricePattern(Map<Integer, List<StepPattern>> listPricePattern) {
 		this.listPricePattern = listPricePattern;
 	}
 
-
-
-
-	public List<StepPattern> getAvailabilityPattern() {
+	public Map<Integer, List<StepPattern>> getAvailabilityPattern() {
 		return availabilityPattern;
 	}
 
-
-
-
-	public void setAvailabilityPattern(List<StepPattern> availabilityPattern) {
+	public void setAvailabilityPattern(
+			Map<Integer, List<StepPattern>> availabilityPattern) {
 		this.availabilityPattern = availabilityPattern;
 	}
-
-	
-		
 	
 }
