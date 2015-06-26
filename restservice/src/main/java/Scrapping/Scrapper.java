@@ -30,17 +30,36 @@ public class Scrapper {
 		URL urlu = new URL(input.getUrl());
 		Document doc = Jsoup.parse(urlu, 60000); // retry mechanism
 		
-		System.out.println(parse(input.getTitlePattern(), doc).text()); // try catch error handling
-		System.out.println(parse(input.getListPricePattern(), doc).text());
-		System.out.println(parse(input.getSellingPricePattern(), doc).text());
-		System.out.println(parse(input.getAvailabilityPattern(), doc).text());
+		
+		System.out.println(selectBestParse(input.getTitlePattern(), doc).text()); // try catch error handling
+		System.out.println(selectBestParse(input.getListPricePattern(), doc).text());
+		System.out.println(selectBestParse(input.getSellingPricePattern(), doc).text());
+		System.out.println(selectBestParse(input.getAvailabilityPattern(), doc).text());
 
 		/*System.out.println(parse(input.getAvailabilityPattern(), userAgent) + parse(input.getAvailabilityPattern(), userAgent).getText().trim());
 		System.out.println(parse(input.getListPricePattern(), userAgent) + parse(input.getListPricePattern(), userAgent).getText());
 		System.out.println(parse(input.getTitlePattern(), userAgent) + parse(input.getTitlePattern(), userAgent).getText());*/
 	}
 	
-	private Element parse(Map<Integer, List<StepPattern>> steps, Document doc){
+	/* There are various patterns in a single pattern string
+	 * The first pattern that provides a not null , not empty result we return it.
+	 * This is pure alogrithmic method which will return the first not null not empty result
+	 * So if instead of a price we are returning a title string it will not make the intellegent
+	 * decision
+	 * */
+	private Element selectBestParse(Map<Integer, List<StepPattern>> manySteps, Document doc){
+		Element result = null;
+		for(int i=0; i<manySteps.size(); i++){
+				result = parse(manySteps.get(i), doc);
+				if(result!=null || result.text()!=null || !result.text().isEmpty()){
+					return result;
+				}
+		}
+		
+		return null;
+	}
+	
+	private Element parse(List<StepPattern> steps, Document doc){
 		Element element = null;
 		for(StepPattern step: steps){
 			String pattern = step.getPattern();
