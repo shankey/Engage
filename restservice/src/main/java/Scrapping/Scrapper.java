@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -33,6 +34,7 @@ public class Scrapper {
 		
 		System.out.println(selectBestParse(input.getTitlePattern(), doc).text()); // try catch error handling
 		System.out.println(selectBestParse(input.getListPricePattern(), doc).text());
+		if(selectBestParse(input.getSellingPricePattern(), doc)!=null)
 		System.out.println(selectBestParse(input.getSellingPricePattern(), doc).text());
 		System.out.println(selectBestParse(input.getAvailabilityPattern(), doc).text());
 
@@ -49,9 +51,12 @@ public class Scrapper {
 	 * */
 	private Element selectBestParse(Map<Integer, List<StepPattern>> manySteps, Document doc){
 		Element result = null;
-		for(int i=0; i<manySteps.size(); i++){
+		
+		for(int i=1; i<=manySteps.size(); i++){
 				result = parse(manySteps.get(i), doc);
-				if(result!=null || result.text()!=null || !result.text().isEmpty()){
+				
+				
+				if(!(result==null || result.text()==null || result.text().trim().isEmpty())){
 					return result;
 				}
 		}
@@ -100,13 +105,23 @@ public class Scrapper {
 				}
 				break;
 			
-			case CONTAINS:
+			case CONTAINS_ATTRIBUTE:
 				if(element==null){
 					return null;
 				}else{
 					String attribute = pattern.split("*")[0];
 					String checkString = pattern.split("*")[1];
 					if(!element.attr(attribute).contains(checkString)){
+						return null;
+					}
+				}
+				break;
+			
+			case CONTAINS_TEXT:
+				if(element==null){
+					return null;
+				}else{
+					if(!Pattern.compile(pattern).matcher(element.text().trim()).find()){
 						return null;
 					}
 				}

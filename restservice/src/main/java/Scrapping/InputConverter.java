@@ -27,6 +27,7 @@ public class InputConverter {
 				stepPatterns.add(stepPattern);
 			}
 			stepPatternsMap.put(index, stepPatterns);
+			index++;
 		}
 		
 		

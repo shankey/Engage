@@ -7,6 +7,7 @@ public enum Steps {
 	NEXT_SIBLING_NODE, // next sibling
 	GET_PARENT,
 	FIRST_CHILD_NODE, //next node
-	CONTAINS
+	CONTAINS_ATTRIBUTE,
+	CONTAINS_TEXT
 
 }
