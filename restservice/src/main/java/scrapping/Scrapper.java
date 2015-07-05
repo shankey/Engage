@@ -1,4 +1,4 @@
-package Scrapping;
+package scrapping;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,35 +12,24 @@ import org.jsoup.nodes.Element;
 
 import Common.Steps;
 import bean.ScrapInput;
+import bean.ScrapOutput;
 import bean.StepPattern;
 
 public class Scrapper {
 	
-	public void scrape(ScrapInput input) throws IOException{
-		/*final WebClient webClient = new WebClient();
-	    final HtmlPage page = webClient.getPage(input.getUrl());
-	    final String pageAsXml = page.asXml();
-	    List<DomNode> node = (List<DomNode>) page.getByXPath("//span[@id=priceblock_saleprice]");
-	    for(DomNode nod: node){
-	    	System.out.println("nema"+ nod.getNodeValue() + nod.getTextContent() + nod.getAttributes().getNamedItem("class"));
-	    }*/
-	    
-		//userAgent.doc.apply("butterflies");            //apply form input (starting at first editable field)
-		//userAgent.doc.submit("Google Search");         //click submit button labelled "Google Search"
+	public ScrapOutput scrape(ScrapInput input) throws IOException{
 		
 		URL urlu = new URL(input.getUrl());
 		Document doc = Jsoup.parse(urlu, 60000); // retry mechanism
 		
+		ScrapOutput output = new ScrapOutput();
+		output.setTitle(selectBestParse(input.getTitlePattern(), doc).text());
+		output.setListPrice(selectBestParse(input.getListPricePattern(), doc).text());
+		output.setSellingPrice(selectBestParse(input.getSellingPricePattern(), doc).text());
+		output.setAvailablity(selectBestParse(input.getAvailabilityPattern(), doc).text());
 		
-		System.out.println(selectBestParse(input.getTitlePattern(), doc).text()); // try catch error handling
-		System.out.println(selectBestParse(input.getListPricePattern(), doc).text());
-		if(selectBestParse(input.getSellingPricePattern(), doc)!=null)
-		System.out.println(selectBestParse(input.getSellingPricePattern(), doc).text());
-		System.out.println(selectBestParse(input.getAvailabilityPattern(), doc).text());
-
-		/*System.out.println(parse(input.getAvailabilityPattern(), userAgent) + parse(input.getAvailabilityPattern(), userAgent).getText().trim());
-		System.out.println(parse(input.getListPricePattern(), userAgent) + parse(input.getListPricePattern(), userAgent).getText());
-		System.out.println(parse(input.getTitlePattern(), userAgent) + parse(input.getTitlePattern(), userAgent).getText());*/
+		return output;
+		
 	}
 	
 	/* There are various patterns in a single pattern string

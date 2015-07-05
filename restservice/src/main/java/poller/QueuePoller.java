@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import Scrapping.InputConverter;
-import Scrapping.Scrapper;
+import scrapping.InputConverter;
+import scrapping.Scrapper;
 import bean.ScrapInput;
 import hibernate.bean.Url;
 import hibernate.util.UrlDAO;

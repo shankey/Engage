@@ -1,4 +1,4 @@
-package Scrapping;
+package scrapping;
 
 import java.io.IOException;
 
@@ -24,6 +24,14 @@ public class Main {
 		String sellingPricePattern3 = "div[class=p_price p_lft dcp];;FIND_FIRST";
 		String availabilityPattern3 = "div[class=p_stock_avail p_lft dcp];;FIND_FIRST";
 		
+		String url5 = "http://www.flipkart.com/dettol-liquid-soap-cool-pump/p/itmduzx5e3dzwhvf?pid=HWSDUZX5FVXAANK5&otracker=from-search&srno=t_4&query=dettol&ref=546448a5-0510-4c90-9d01-6dd04d6fc71c";
+		String url6 = "http://www.flipkart.com/apple-iphone-6/p/itme8ra5z7yx5c9j?pid=MOBEYHZ2GY7HDHHG&ref=L%3A5567396474029687488&srno=p_8&query=iphone+6&otracker=from-search";
+		String titlePattern5 = "h1[class=title];;FIND_FIRST";
+		String listPricePattern5 = "div[class=pricing line];;FIND_FIRST::;;FIRST_CHILD_NODE::;;FIRST_CHILD_NODE";
+		String sellingPricePattern5 = "span[class=selling-price omniture-field];;FIND_FIRST";
+		String availabilityPattern5 = "div[class=out-of-stock-status];;FIND_FIRST";
+		
+		
 		
 		
 		ScrapInput input = new ScrapInput(url, 
@@ -41,6 +49,14 @@ public class Main {
 				InputConverter.convert(availabilityPattern3));
 		Scrapper sc2 = new Scrapper();
 		sc2.scrape(input2);
+		
+		ScrapInput input3 = new ScrapInput(url6, 
+				InputConverter.convert(titlePattern5), 
+				InputConverter.convert(sellingPricePattern5),
+				InputConverter.convert(listPricePattern5),
+				InputConverter.convert(availabilityPattern5));
+		Scrapper sc3 = new Scrapper();
+		sc2.scrape(input3);
 		/*URL urlu = new URL(url);
 		Document doc = Jsoup.parse(urlu, 60000);
 
