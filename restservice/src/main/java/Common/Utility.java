@@ -12,5 +12,11 @@ public class Utility {
 		
 		return false;
 	}
+	
+	public static String cleanWebString(String sp){
+		sp = sp.replace("\u00a0", " ");
+		sp = sp.trim();
+		return sp;
+	}
 
 }

@@ -11,14 +11,19 @@ public class DBPoller {
 	public void pollDB() throws InterruptedException{
 		
 		while(true){
-			
+			System.out.println("inside while of pollDB");
 			// if the queue is not empty then try to poll DB and fill queue
 			if(Queues.getUrlQueue().isEmpty()){
+				System.out.println("pollDB - empty queue");
 				UrlDAO dao = new UrlDAO();
 				
 				//poll for a few items
 				List<Url> list = dao.getOutdatedUrlDetails();
+				System.out.println("polled DB list of " + list.size());
 				
+				for(Url url : list){
+					System.out.println(url.getSku() + url.getListPricePattern());
+				}
 				//Insert them in a queue
 				//Adding all items to a queue.
 				// Use an external queue when moving to a distributed system.
@@ -36,7 +41,7 @@ public class DBPoller {
 				}
 				
 			}
-			Thread.sleep(Utility.SECOND*60); // 1 minute wait
+			Thread.sleep(Utility.SECOND*5); // 1 minute wait
 		}
 	}
 

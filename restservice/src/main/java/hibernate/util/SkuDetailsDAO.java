@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import Common.Utility;
 import hibernate.bean.SkuDetails;
+import hibernate.bean.Url;
 
 public class SkuDetailsDAO {
 	
@@ -38,5 +40,23 @@ public class SkuDetailsDAO {
 		
 		return (List<SkuDetails>)cr.list();
 	}
+	
+	public void saveOrUpdate(SkuDetails skuDetails){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = session.getTransaction();
+		
+		
+			
+			tx.begin();
+			session.saveOrUpdate(skuDetails);
+			tx.commit();
+			session.flush();
+			
+		
+		session.close();
+		
+	}
+	
 
 }

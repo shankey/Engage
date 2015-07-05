@@ -9,17 +9,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "url")
-public class Url {
+public class Url implements Comparable<Url> {
 	
 	@Id
 	private Integer id;
 	private String url;
+	private String sku;
 	private String listPricePattern;
 	private String sellingPricePattern;
 	private String availabilityPattern;
 	private String titlePattern;
 	private Timestamp lastUpdated;
-	private Integer state;
 	private String marketplace;
 	
 	
@@ -49,13 +49,6 @@ public class Url {
 		this.lastUpdated = lastUpdated;
 	}
 	
-	@Column(name = "STATE")
-	public Integer getState() {
-		return state;
-	}
-	public void setState(Integer state) {
-		this.state = state;
-	}
 	
 	@Column(name = "MARKETPLACE")
 	public String getMarketplace() {
@@ -81,7 +74,7 @@ public class Url {
 		this.sellingPricePattern = sellingPricePattern;
 	}
 	
-	@Column(name = "AVAILABILITY_PRICE_PATTERN")
+	@Column(name = "AVAILABILITY_PATTERN")
 	public String getAvailabilityPattern() {
 		return availabilityPattern;
 	}
@@ -95,6 +88,23 @@ public class Url {
 	}
 	public void setTitlePattern(String titlePattern) {
 		this.titlePattern = titlePattern;
+	}
+	
+	@Column(name = "SKU")
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+	public String toString(){
+		return this.marketplace + " " + this.sku;
+	}
+	
+	@Override
+	public int compareTo(Url o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import Common.Steps;
+import Common.Utility;
 import bean.ScrapInput;
 import bean.ScrapOutput;
 import bean.StepPattern;
@@ -23,12 +24,22 @@ public class Scrapper {
 		Document doc = Jsoup.parse(urlu, 60000); // retry mechanism
 		
 		ScrapOutput output = new ScrapOutput();
-		output.setTitle(selectBestParse(input.getTitlePattern(), doc).text());
-		output.setListPrice(selectBestParse(input.getListPricePattern(), doc).text());
-		output.setSellingPrice(selectBestParse(input.getSellingPricePattern(), doc).text());
-		output.setAvailablity(selectBestParse(input.getAvailabilityPattern(), doc).text());
+		
+		output.setTitle(getParsedValue(input.getTitlePattern(), doc));
+		output.setListPrice(getParsedValue(input.getListPricePattern(), doc));
+		output.setSellingPrice(getParsedValue(input.getSellingPricePattern(), doc));
+		output.setAvailablity(getParsedValue(input.getAvailabilityPattern(), doc));
 		
 		return output;
+		
+	}
+	
+	private String getParsedValue(Map<Integer, List<StepPattern>> pattern, Document doc){
+		Element output = selectBestParse(pattern, doc);
+		if(output!=null){
+			return Utility.cleanWebString(output.text());
+		}
+		return null;
 		
 	}
 	
@@ -42,7 +53,14 @@ public class Scrapper {
 		Element result = null;
 		
 		for(int i=1; i<=manySteps.size(); i++){
-				result = parse(manySteps.get(i), doc);
+			
+				try{
+					result = parse(manySteps.get(i), doc);
+				}catch(Exception e){
+					System.out.println("ERROR at Pattern no "+i+" Pattern Vaues "+ manySteps);
+					e.printStackTrace();
+				}
+				
 				
 				
 				if(!(result==null || result.text()==null || result.text().trim().isEmpty())){

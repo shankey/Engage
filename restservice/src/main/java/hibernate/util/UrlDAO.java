@@ -26,9 +26,8 @@ public class UrlDAO {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(Url.class);
 		
-		cr.setMaxResults(4);
+		cr.setMaxResults(100);
 		cr.add(Restrictions.le("lastUpdated", getLastDayTimestamp()));
-		cr.add(Restrictions.eq("state", 0));
 		
 		
 		List<Url> results = (List<Url>)cr.list();

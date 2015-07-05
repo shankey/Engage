@@ -2,12 +2,15 @@ package scrapping;
 
 import java.io.IOException;
 
+import poller.DBPoller;
+import poller.QueuePoller;
 import bean.ScrapInput;
+import bean.ScrapOutput;
 
 
 public class Main {
 	
-	public static void main(String args[]) throws IOException{
+	public static void main(String args[]) throws IOException, InterruptedException{
 		
 		//amazon
 		String url = "http://www.amazon.in/Saco-Pouch-Xiaomi-Power-10400/dp/B00R9IOZ8Y/ref=sr_1_7?s=electronics&ie=UTF8&qid=1435174923&sr=1-7&keywords=power+bank";
@@ -30,17 +33,38 @@ public class Main {
 		String listPricePattern5 = "div[class=pricing line];;FIND_FIRST::;;FIRST_CHILD_NODE::;;FIRST_CHILD_NODE";
 		String sellingPricePattern5 = "span[class=selling-price omniture-field];;FIND_FIRST";
 		String availabilityPattern5 = "div[class=out-of-stock-status];;FIND_FIRST";
+	
+		Runnable r1 = new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					new QueuePoller().pollQueue();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		};
+		
+		Thread t = new Thread(r1);
+		t.start();
+		
+		new DBPoller().pollDB();
 		
 		
-		
-		
-		ScrapInput input = new ScrapInput(url, 
+		ScrapInput input = new ScrapInput(url2, 
 				InputConverter.convert(titlePattern), 
 				InputConverter.convert(sellingPricePattern),
 				InputConverter.convert(listPricePattern),
 				InputConverter.convert(availabilityPattern));
 		Scrapper sc = new Scrapper();
-		sc.scrape(input);
+		ScrapOutput output = sc.scrape(input);
+		System.out.println(output);
 		
 		ScrapInput input2 = new ScrapInput(url4, 
 				InputConverter.convert(titlePattern3), 
