@@ -15,7 +15,7 @@ public class HibernateTestApp {
 		System.out.println("Maven + Hibernate + Oracle");
 		
  
-		UrlDAO dao = new UrlDAO();
+		UrlDAO dao = UrlDAO.getUrlDao();
 		System.out.println("result set -> "+dao.getOutdatedUrlDetails().size());
 		
 		for(Url url: dao.getOutdatedUrlDetails()){

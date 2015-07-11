@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
+
 import scrapping.InputConverter;
 import scrapping.Scrapper;
 import bean.ScrapInput;
@@ -14,30 +16,40 @@ import hibernate.util.SkuDetailsDAO;
 import hibernate.util.UrlDAO;
 import Common.Utility;
 
-public class QueuePoller {
+public class QueuePoller implements Runnable {
+	
+	private static QueuePoller queuepoller = new QueuePoller(); 
+	private static Logger logger = Logger.getLogger(QueuePoller.class);
+	public boolean isPolling = false;
 	
 public void pollQueue() throws InterruptedException, IOException{
-		
-		UrlDAO urlDao = new UrlDAO();
-		SkuDetailsDAO skuDetailsDAO = new SkuDetailsDAO();
-		Scrapper scrapper = new Scrapper();
 	
+		
+		UrlDAO urlDao = UrlDAO.getUrlDao();
+		SkuDetailsDAO skuDetailsDAO = SkuDetailsDAO.getSkuDetailsDAO();
+		Scrapper scrapper = new Scrapper();
+		isPolling = true;
+		
+		
+		Url url;
+		ScrapInput scrapInput;
+		ScrapOutput output;
 		while(true){
 			System.out.println("inside while of pollQueuue");
 			// if the queue is not empty then try to poll DB and fill queue
 			if(!Queues.getUrlQueue().isEmpty()){
 				System.out.println("Queue was not empty");
-				Url url = Queues.getUrlQueue().poll();
+				url = Queues.getUrlQueue().poll();
 				System.out.println(url);
 				
 				//put parsing logic and saving new skudetails row here
-				ScrapInput scrapInput = new ScrapInput(url.getUrl(),
+				scrapInput = new ScrapInput(url.getUrl(),
 						InputConverter.convert(url.getTitlePattern()), 
 						InputConverter.convert(url.getSellingPricePattern()), 
 						InputConverter.convert(url.getListPricePattern()), 
 						InputConverter.convert(url.getAvailabilityPattern()));
 				
-				ScrapOutput output = scrapper.scrape(scrapInput);
+				output = scrapper.scrape(scrapInput);
 				System.out.println(output);
 				Thread.sleep(10000);
 				
@@ -84,6 +96,20 @@ public void pollQueue() throws InterruptedException, IOException{
 		}
 		
 		return details;
+		
+	}
+
+	@Override
+	public void run() {
+		try {
+			if(!isPolling){
+				queuepoller.pollQueue();
+			}
+		} catch (InterruptedException e) {
+			logger.error("Unable to launch queuepoller", e);
+		} catch (IOException e) {
+			logger.error("Unable to launch queuepoller", e);
+		}
 		
 	}
 

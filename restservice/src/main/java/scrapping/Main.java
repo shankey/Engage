@@ -1,9 +1,13 @@
 package scrapping;
 
+import hibernate.bean.SkuDetails;
+
 import java.io.IOException;
+import java.util.List;
 
 import poller.DBPoller;
 import poller.QueuePoller;
+import bao.GetPriceBAO;
 import bean.ScrapInput;
 import bean.ScrapOutput;
 
@@ -34,7 +38,11 @@ public class Main {
 		String sellingPricePattern5 = "span[class=selling-price omniture-field];;FIND_FIRST";
 		String availabilityPattern5 = "div[class=out-of-stock-status];;FIND_FIRST";
 	
-		Runnable r1 = new Runnable() {
+		List<SkuDetails> li = new GetPriceBAO().getPriceDetailsForSku("JN68310059");
+		for(SkuDetails detail: li){
+			System.out.println(detail);
+		}
+		/*Runnable r1 = new Runnable() {
 			
 			@Override
 			public void run() {
@@ -80,7 +88,7 @@ public class Main {
 				InputConverter.convert(listPricePattern5),
 				InputConverter.convert(availabilityPattern5));
 		Scrapper sc3 = new Scrapper();
-		sc2.scrape(input3);
+		sc2.scrape(input3);*/
 		/*URL urlu = new URL(url);
 		Document doc = Jsoup.parse(urlu, 60000);
 

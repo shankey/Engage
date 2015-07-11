@@ -17,6 +17,16 @@ import hibernate.bean.Url;
 
 public class UrlDAO {
 	
+	private static UrlDAO dao = new UrlDAO();
+	
+	private UrlDAO(){
+		
+	}
+	
+	public static UrlDAO getUrlDao(){
+		return dao;
+	}
+	
 	public List<Url> getOutdatedUrlDetails(){
 		
 		Url url = new Url();

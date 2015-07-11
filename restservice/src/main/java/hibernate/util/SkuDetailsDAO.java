@@ -13,29 +13,35 @@ import hibernate.bean.Url;
 
 public class SkuDetailsDAO {
 	
+	private SkuDetailsDAO(){
+		
+	}
+	
+	private static SkuDetailsDAO dao = new SkuDetailsDAO();
+	
+	public static SkuDetailsDAO getSkuDetailsDAO(){
+		return dao;
+	}
+	
 	public List<SkuDetails> getSkuDetails(SkuDetails details){
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Criteria cr = session.createCriteria(SkuDetails.class);
 		
-		if(Utility.isNull(details.getSku())){
-			cr.add(Restrictions.eq("SKU", details.getSku()));
+		if(!Utility.isNull(details.getSku())){
+			cr.add(Restrictions.eq("sku", details.getSku()));
 		}
 		
-		if(Utility.isNull(details.getMarketPlace())){
-			cr.add(Restrictions.eq("MARKETPLACE", details.getMarketPlace()));
+		if(!Utility.isNull(details.getMarketPlace())){
+			cr.add(Restrictions.eq("marketPlace", details.getMarketPlace()));
 		}
 		
-		if(Utility.isNull(details.getSku())){
-			cr.add(Restrictions.eq("SKU", details.getSku()));
+		if(!Utility.isNull(details.getTitle())){
+			cr.add(Restrictions.eq("title", details.getTitle()));
 		}
 		
-		if(Utility.isNull(details.getTitle())){
-			cr.add(Restrictions.eq("TITLE", details.getTitle()));
-		}
-		
-		if(Utility.isNull(details.getAvailable())){
-			cr.add(Restrictions.eq("AVAILABLE", details.getAvailable()));
+		if(!Utility.isNull(details.getAvailable())){
+			cr.add(Restrictions.eq("available", details.getAvailable()));
 		}
 		
 		return (List<SkuDetails>)cr.list();
