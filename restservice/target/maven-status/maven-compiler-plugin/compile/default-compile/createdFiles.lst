@@ -1,9 +1,7 @@
 bean\StepPattern.class
-hello\Greeting.class
-hello\Application.class
 scrapping\Scrapper$1.class
 Common\Steps.class
-hello\GreetingController.class
+scrapping\Main$1.class
 hibernate\bean\SkuDetails.class
 hibernate\util\HibernateTestApp.class
 poller\Queues.class
@@ -19,6 +17,5 @@ scrapping\datamanipulator\Manipulator.class
 poller\DBPoller.class
 scrapping\Scrapper.class
 bean\ScrapInput.class
-scrapping\Main.class
 hibernate\bean\Url.class
 scrapping\InputConverter.class

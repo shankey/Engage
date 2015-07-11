@@ -10,7 +10,7 @@ import bean.ScrapOutput;
 
 public class Main {
 	
-	public static void main(String args[]) throws IOException, InterruptedException{
+	public static void main2(String args[]) throws IOException, InterruptedException{
 		
 		//amazon
 		String url = "http://www.amazon.in/Saco-Pouch-Xiaomi-Power-10400/dp/B00R9IOZ8Y/ref=sr_1_7?s=electronics&ie=UTF8&qid=1435174923&sr=1-7&keywords=power+bank";
