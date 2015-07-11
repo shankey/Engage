@@ -1,9 +1,13 @@
 bean\StepPattern.class
+servicecontroller\Application.class
 scrapping\Scrapper$1.class
 Common\Steps.class
+scrapping\Try.class
 scrapping\Main$1.class
 hibernate\bean\SkuDetails.class
 hibernate\util\HibernateTestApp.class
+servicecontroller\Greeting.class
+Common\Log.class
 poller\Queues.class
 poller\QueuePoller.class
 Common\Utility.class
@@ -12,10 +16,12 @@ hibernate\util\HibernateUtil.class
 hibernate\util\SkuDetailsDAO.class
 hibernate\util\UrlDAO.class
 bean\Dummy.class
+servicecontroller\GreetingController.class
 hibernate\bean\Test.class
 scrapping\datamanipulator\Manipulator.class
 poller\DBPoller.class
 scrapping\Scrapper.class
 bean\ScrapInput.class
+scrapping\Main.class
 hibernate\bean\Url.class
 scrapping\InputConverter.class

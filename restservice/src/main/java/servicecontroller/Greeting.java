@@ -1,4 +1,4 @@
-package service;
+package servicecontroller;
 
 public class Greeting {
 
