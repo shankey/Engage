@@ -2,6 +2,8 @@ package poller;
 
 import java.util.List;
 
+import javax.annotation.PreDestroy;
+
 import org.apache.log4j.Logger;
 
 import hibernate.bean.Url;
@@ -19,7 +21,7 @@ public class DBPoller implements Runnable {
 		isPolling = true;
 		UrlDAO dao = UrlDAO.getUrlDao();
 		List<Url> list;
-		while(true){
+		while(!Thread.currentThread().isInterrupted()){
 			System.out.println("inside while of pollDB");
 			// if the queue is not empty then try to poll DB and fill queue
 			if(Queues.getUrlQueue().isEmpty()){
@@ -63,6 +65,12 @@ public class DBPoller implements Runnable {
 			logger.error("unable to start DBPoller", e);
 		}
 		
+	}
+	
+	@PreDestroy
+	public void cleanUp() throws Exception {
+	  System.out.println("Destroying DB Poller");
+	  isPolling = false;
 	}
 
 }

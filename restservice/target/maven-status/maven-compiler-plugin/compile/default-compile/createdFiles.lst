@@ -3,7 +3,7 @@ servicecontroller\Application.class
 scrapping\Scrapper$1.class
 Common\Steps.class
 scrapping\Try.class
-scrapping\Main$1.class
+bao\GetPriceBAO.class
 hibernate\bean\SkuDetails.class
 hibernate\util\HibernateTestApp.class
 servicecontroller\Greeting.class

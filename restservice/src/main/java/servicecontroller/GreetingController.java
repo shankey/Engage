@@ -47,14 +47,14 @@ public class GreetingController {
     	return new Log();
     }
     
-    @Bean
+    //@Bean
     public DBPoller dbpoller(){
     	DBPoller dbpoller = new DBPoller();
     	new Thread(dbpoller).start();
     	return dbpoller;
     }
     
-    @Bean
+    //@Bean
     public QueuePoller queuepoller(){
     	QueuePoller queuepoller = new QueuePoller();
     	new Thread(queuepoller).start();

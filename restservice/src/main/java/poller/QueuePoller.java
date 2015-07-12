@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import javax.annotation.PreDestroy;
+
 import org.apache.log4j.Logger;
 
 import scrapping.InputConverter;
@@ -34,7 +36,7 @@ public void pollQueue() throws InterruptedException, IOException{
 		Url url;
 		ScrapInput scrapInput;
 		ScrapOutput output;
-		while(true){
+		while(!Thread.currentThread().isInterrupted()){
 			System.out.println("inside while of pollQueuue");
 			// if the queue is not empty then try to poll DB and fill queue
 			if(!Queues.getUrlQueue().isEmpty()){
@@ -111,6 +113,12 @@ public void pollQueue() throws InterruptedException, IOException{
 			logger.error("Unable to launch queuepoller", e);
 		}
 		
+	}
+	
+	@PreDestroy
+	public void cleanUp() throws Exception {
+	  System.out.println("Destroying DB Poller");
+	  isPolling = false;
 	}
 
 }
