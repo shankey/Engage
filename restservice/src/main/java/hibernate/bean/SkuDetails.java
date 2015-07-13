@@ -2,6 +2,7 @@ package hibernate.bean;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,11 +13,10 @@ import javax.persistence.Table;
 @Table(name = "sku_details")
 public class SkuDetails {
 	
-	@Id
+	@EmbeddedId
+	private SkuDetailsKey skuDetailsKey;
 	private Integer id;
-	private String sku;
 	private Integer urlId;
-	private String marketPlace;
 	private Double listPrice;
 	private Double sellingPrice;
 	private String title;
@@ -24,17 +24,23 @@ public class SkuDetails {
 
 	public SkuDetails() {
 	}
- 
-	
- 
-	public SkuDetails(Integer id, String sku, Integer urlId,
-			String marketPlace, Double listPrice, Double sellingPrice,
-			String title, String available) {
+
+	public SkuDetailsKey getSkuDetailsKey() {
+		return skuDetailsKey;
+	}
+
+	public void setSkuDetailsKey(SkuDetailsKey skuDetailsKey) {
+		this.skuDetailsKey = skuDetailsKey;
+	}
+
+
+	public SkuDetails(Integer id, Integer urlId,
+			Double listPrice, Double sellingPrice,
+			String title, String available, SkuDetailsKey skuDetailsKey) {
 		super();
 		this.id = id;
-		this.sku = sku;
+		this.skuDetailsKey = skuDetailsKey;
 		this.urlId = urlId;
-		this.marketPlace = marketPlace;
 		this.listPrice = listPrice;
 		this.sellingPrice = sellingPrice;
 		this.title = title;
@@ -58,16 +64,7 @@ public class SkuDetails {
 	}
 
 
-	@Column(name = "SKU")
-	public String getSku() {
-		return sku;
-	}
 
-
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
 
 
 	@Column(name = "URL_ID")
@@ -82,16 +79,6 @@ public class SkuDetails {
 	}
 
 
-	@Column(name = "MARKETPLACE")
-	public String getMarketPlace() {
-		return marketPlace;
-	}
-
-
-
-	public void setMarketPlace(String marketPlace) {
-		this.marketPlace = marketPlace;
-	}
 
 
 	@Column(name = "LIST_PRICE")
@@ -135,14 +122,12 @@ public class SkuDetails {
 		return available;
 	}
 
-
-
 	public void setAvailable(String available) {
 		this.available = available;
 	}
 	
 	public String toString(){
-		return this.sku + " " + this.listPrice + " " + this.sellingPrice;
+		return this.skuDetailsKey.getSku() + " " + this.skuDetailsKey.getMarketPlace() +  " " + this.listPrice + " " + this.sellingPrice;
 	}
 
 }
