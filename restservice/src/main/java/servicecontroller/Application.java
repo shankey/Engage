@@ -1,6 +1,7 @@
 package servicecontroller;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,9 +24,24 @@ public class Application  extends SpringBootServletInitializer {
         
     }
     
+    Thread qThread=null;
+    Thread dbThread=null;
     @PostConstruct
     public void init(){
-    	new Thread(new QueuePoller()).start();
-        new Thread(new DBPoller()).start();
+    	if(qThread==null){
+    		qThread = new Thread(new QueuePoller());
+            dbThread = new Thread(new DBPoller());
+            
+            qThread.start();
+            dbThread.start();
+    	}
+    	
     }
+    
+    /*@PreDestroy
+    public void destroy(){
+    	qThread.interrupt();
+    	
+    	dbThread.interrupt();
+    }*/
 }

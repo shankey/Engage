@@ -7,6 +7,8 @@ import java.util.List;
 
 
 
+
+import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,6 +18,8 @@ import hibernate.bean.SkuDetails;
 import hibernate.bean.Url;
 
 public class UrlDAO {
+	
+	private static Logger logger = Logger.getLogger(UrlDAO.class);
 	
 	private static UrlDAO dao = new UrlDAO();
 	
@@ -28,6 +32,9 @@ public class UrlDAO {
 	}
 	
 	public List<Url> getOutdatedUrlDetails(){
+		
+		try{
+			
 		
 		Url url = new Url();
 		
@@ -45,6 +52,10 @@ public class UrlDAO {
 		session.close();
 		
 		return results;
+		}catch(Exception e){
+			logger.error("Error while getting outdatedUrls", e);
+			return null;
+		}
 		
 	}
 	
@@ -59,19 +70,30 @@ public class UrlDAO {
 	}
 	
 	public void update(Url url){
-		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		Transaction tx = session.getTransaction();
-		
-		
+		Session session=null;
+		Transaction tx=null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.getTransaction();
 			
-			tx.begin();
-			session.update(url);
-			tx.commit();
-			session.flush();
 			
+				
+				tx.begin();
+				session.update(url);
+				tx.commit();
+				
+				
+		}catch(Exception e){
+			logger.error("Error while updating URL", e);
+			
+		}finally{
+			if(session!=null){
+				session.flush();
+				session.close();
+			}
+			
+		}
 		
-		session.close();
 		
 	}
 	

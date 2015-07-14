@@ -1,6 +1,8 @@
 package scrapping;
 
 import hibernate.bean.SkuDetails;
+import hibernate.bean.SkuDetailsKey;
+import hibernate.util.SkuDetailsDAO;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,10 +40,19 @@ public class Main {
 		String sellingPricePattern5 = "span[class=selling-price omniture-field];;FIND_FIRST";
 		String availabilityPattern5 = "div[class=out-of-stock-status];;FIND_FIRST";
 	
-		List<SkuDetails> li = new GetPriceBAO().getPriceDetailsForSku("JN68310059");
+		SkuDetails skuDetails = new SkuDetails();
+		SkuDetailsKey key = new SkuDetailsKey();
+		skuDetails.setId(410);
+		key.setSku("TestAdi1");
+		key.setMarketPlace("TestMarketplace");
+		skuDetails.setSkuDetailsKey(key);
+		
+		SkuDetailsDAO.getSkuDetailsDAO().saveOrUpdate(skuDetails);
+		
+		/*List<SkuDetails> li = new GetPriceBAO().getPriceDetailsForSku("JN68310059");
 		for(SkuDetails detail: li){
 			System.out.println(detail);
-		}
+		}*/
 		/*Runnable r1 = new Runnable() {
 			
 			@Override
