@@ -26,7 +26,7 @@ public class QueuePoller implements Runnable {
 	private static Logger logger = Logger.getLogger(QueuePoller.class);
 	public boolean isPolling = false;
 	
-public void pollQueue() throws InterruptedException, IOException{
+public void pollQueue() throws InterruptedException{
 	
 		
 		UrlDAO urlDao = UrlDAO.getUrlDao();
@@ -122,8 +122,6 @@ public void pollQueue() throws InterruptedException, IOException{
 				queuepoller.pollQueue();
 			}
 		} catch (InterruptedException e) {
-			logger.error("Unable to launch queuepoller", e);
-		} catch (IOException e) {
 			logger.error("Unable to launch queuepoller", e);
 		}
 		
