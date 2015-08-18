@@ -23,5 +23,6 @@
   <mapping class="hibernate.bean.Test"></mapping>
   <mapping class="hibernate.bean.Url"></mapping>
   <mapping class="hibernate.bean.SkuDetails"></mapping>
+  <mapping class="hibernate.bean.JiniboxSkuDetails"></mapping>
 </session-factory>
 </hibernate-configuration>

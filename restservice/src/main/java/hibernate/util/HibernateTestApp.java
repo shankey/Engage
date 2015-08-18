@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
+import hibernate.bean.JiniboxSkuDetails;
 import hibernate.bean.Test;
 import hibernate.bean.Url;
 
@@ -15,10 +16,12 @@ public class HibernateTestApp {
 		System.out.println("Maven + Hibernate + Oracle");
 		
  
-		UrlDAO dao = UrlDAO.getUrlDao();
-		System.out.println("result set -> "+dao.getOutdatedUrlDetails().size());
+		JiniboxSkuDetailsDAO dao = JiniboxSkuDetailsDAO.getJiniboxSkuDetailsDAO();
 		
-		for(Url url: dao.getOutdatedUrlDetails()){
+		JiniboxSkuDetails details = new JiniboxSkuDetails();
+		System.out.println("result set -> "+ dao.getJiniBoxDetail(details).size());
+		
+		for(JiniboxSkuDetails url: dao.getJiniBoxDetail(details)){
 			System.out.println(url);
 		}
 		
