@@ -19,9 +19,9 @@ import poller.DBPoller;
 import poller.QueuePoller;
 
 @RestController
-public class GreetingController {
+public class ServiceController {
 
-	public static Logger logger = Logger.getLogger(GreetingController.class);
+	public static Logger logger = Logger.getLogger(ServiceController.class);
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
     private static Thread dbpollerThread;
