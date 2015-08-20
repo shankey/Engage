@@ -8,6 +8,7 @@ import hibernate.bean.SkuDetails;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import Common.Utility;
@@ -45,7 +46,7 @@ private static Logger logger = Logger.getLogger(JiniboxSkuDetailsDAO.class);
 				cr.add(Restrictions.eq("title", details.getTitle()));
 			}
 
-			if (details.getSku()!=null) {
+			if (details.getId()!=null) {
 				cr.add(Restrictions.eq("id", details.getId()));
 			}
 			
@@ -60,8 +61,32 @@ private static Logger logger = Logger.getLogger(JiniboxSkuDetailsDAO.class);
 			
 		}
 
-		
 	}
+	
+	public void saveOrUpdate(JiniboxSkuDetails details){
+		Session session = null;
+		Transaction tx = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.getTransaction();
+
+			tx.begin();
+			logger.info("trying to merge");
+			session.merge(details);
+			tx.commit();
+
+		} catch (Exception e) {
+			logger.error("Error in saveOrUpdate SkuDetails", e);
+		} finally {
+			if (session != null) {
+				session.flush();
+				session.close();
+			}
+
+		}
+	
+	}
+
 	
 	
 

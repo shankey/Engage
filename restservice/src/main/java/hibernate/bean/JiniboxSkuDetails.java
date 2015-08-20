@@ -134,7 +134,7 @@ public class JiniboxSkuDetails {
 	
 	@Override
 	public String toString(){
-		return sku + " " + category +  " " + title;
+		return id + " " + sku + " " + category +  " " + title + " "+ourPrice+ " " + listPrice;
 	}
 	
 	

@@ -9,6 +9,8 @@ import hibernate.bean.Test;
 import hibernate.bean.Url;
 
 import org.hibernate.Session;
+
+import pricing.JiniboxRules;
  
 public class HibernateTestApp {
 	
@@ -19,13 +21,8 @@ public class HibernateTestApp {
 		JiniboxSkuDetailsDAO dao = JiniboxSkuDetailsDAO.getJiniboxSkuDetailsDAO();
 		
 		JiniboxSkuDetails details = new JiniboxSkuDetails();
-		System.out.println("result set -> "+ dao.getJiniBoxDetail(details).size());
 		
-		for(JiniboxSkuDetails url: dao.getJiniBoxDetail(details)){
-			System.out.println(url);
-		}
-		
-
+		new JiniboxRules().generateOurPrice("SKU2");
 		
 	}
 }

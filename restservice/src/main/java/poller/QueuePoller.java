@@ -58,11 +58,15 @@ public void pollQueue() throws InterruptedException{
 					logger.info(output);
 
 					SkuDetails skuDetails = getSkuDetails(url, output);
-					List<SkuDetails> skuDetailsfromDb = skuDetailsDAO
+					
+					// This is to create a new column per update. The saveorupdate method
+					//wont get primary id so it will save a new row.
+					
+					/*List<SkuDetails> skuDetailsfromDb = skuDetailsDAO
 							.getSkuDetails(skuDetails);
 					if (skuDetailsfromDb != null && skuDetailsfromDb.size() > 0) {
 						skuDetails.setId(skuDetailsfromDb.get(0).getId());
-					}
+					}*/
 					skuDetailsDAO.saveOrUpdate(skuDetails);
 
 					url.setLastUpdated(new Timestamp(new Date().getTime()));
