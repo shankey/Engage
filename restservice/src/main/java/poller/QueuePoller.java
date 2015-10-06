@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import scrapping.InputConverter;
 import scrapping.Scrapper;
+import bao.CompetitorPriceIndexBAO;
 import bean.ScrapInput;
 import bean.ScrapOutput;
 import hibernate.bean.SkuDetails;
@@ -39,9 +40,9 @@ public void pollQueue() throws InterruptedException{
 		ScrapInput scrapInput;
 		ScrapOutput output;
 		while(!Thread.currentThread().isInterrupted()){
-			logger.info("inside while of pollQueuue");
+			logger.info("inside while of pollQueuue "+Thread.currentThread().isInterrupted());
 			// if the queue is not empty then try to poll DB and fill queue
-			if(!Queues.getUrlQueue().isEmpty()){
+			while(!Queues.getUrlQueue().isEmpty()){
 				logger.info("Queue was not empty");
 				url = Queues.getUrlQueue().poll();
 				logger.info(url);
@@ -68,13 +69,14 @@ public void pollQueue() throws InterruptedException{
 						skuDetails.setId(skuDetailsfromDb.get(0).getId());
 					}*/
 					skuDetailsDAO.saveOrUpdate(skuDetails);
+					new CompetitorPriceIndexBAO().saveCompetitorPriceIndex(skuDetails.getSkuDetailsKey().getSku());
 
 					url.setLastUpdated(new Timestamp(new Date().getTime()));
 					urlDao.update(url);
 				} catch (Exception e) {
 					logger.error("Problem in scrapping/saving "+ url.getUrl() + " " + url.getSku() + " "+ url.getMarketplace(), e);
 				}
-						
+					
 			}
 			Thread.sleep(Utility.SECOND*60); // 1 minute wait
 		}
@@ -108,12 +110,6 @@ public void pollQueue() throws InterruptedException{
 		}
 		
 		logger.info("before saving -> "+ details);
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		return details;
 		
@@ -126,15 +122,11 @@ public void pollQueue() throws InterruptedException{
 				queuepoller.pollQueue();
 			}
 		} catch (InterruptedException e) {
-			logger.error("Unable to launch queuepoller", e);
+			isPolling = false;
+			logger.error("Unable to launch queuepoller or stopping queue poller", e);
 		}
 		
 	}
 	
-	@PreDestroy
-	public void cleanUp() throws Exception {
-	  logger.info("Destroying DB Poller");
-	  isPolling = false;
-	}
 
 }

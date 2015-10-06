@@ -24,7 +24,10 @@ public class JiniboxSkuDetails {
 	private Double floorPricePercentage;
 	private Double competitorPriceIndex;
 	private Double ourPrice;
+	private Double overridePrice;
+	private String competitorMatch;
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -130,6 +133,22 @@ public class JiniboxSkuDetails {
 	}
 	public void setOurPrice(Double ourPrice) {
 		this.ourPrice = ourPrice;
+	}
+	
+	@Column(name = "OVERRIDE_PRICE")
+	public Double getOverridePrice() {
+		return overridePrice;
+	}
+	public void setOverridePrice(Double overridePrice) {
+		this.overridePrice = overridePrice;
+	}
+	
+	@Column(name = "COMPETITOR_MATCH")
+	public String getCompetitorMatch() {
+		return competitorMatch;
+	}
+	public void setCompetitorMatch(String competitorMatch) {
+		this.competitorMatch = competitorMatch;
 	}
 	
 	@Override

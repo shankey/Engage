@@ -48,6 +48,10 @@ public class SkuDetailsDAO {
 			if (!Utility.isNull(details.getAvailable())) {
 				cr.add(Restrictions.eq("available", details.getAvailable()));
 			}
+			
+			if (details.getLastUpdated()!=null) {
+				cr.add(Restrictions.ge("lastUpdated", details.getLastUpdated()));
+			}
 
 			return (List<SkuDetails>) cr.list();
 		} catch (Exception e) {

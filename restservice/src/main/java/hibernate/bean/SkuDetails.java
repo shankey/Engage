@@ -1,5 +1,7 @@
 package hibernate.bean;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -21,6 +23,8 @@ public class SkuDetails {
 	private Double sellingPrice;
 	private String title;
 	private String available;
+	private Timestamp lastUpdated;
+
 
 	public SkuDetails() {
 	}
@@ -127,7 +131,16 @@ public class SkuDetails {
 	}
 	
 	public String toString(){
-		return this.skuDetailsKey.getSku() + " " + this.skuDetailsKey.getMarketPlace() +  " " + this.listPrice + " " + this.sellingPrice;
+		return this.skuDetailsKey.getSku() + " " + this.skuDetailsKey.getMarketPlace() +  " " + this.listPrice + " " + this.sellingPrice + this.lastUpdated;
+	}
+	
+	@Column(name = "LAST_UPDATED")
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
 	}
 
 }

@@ -22,7 +22,7 @@ public class DBPoller implements Runnable {
 		UrlDAO dao = UrlDAO.getUrlDao();
 		List<Url> list;
 		while(!Thread.currentThread().isInterrupted()){
-			logger.info("inside while of pollDB");
+			logger.info("inside while of pollDB "+ Thread.currentThread().isInterrupted());
 			// if the queue is not empty then try to poll DB and fill queue
 			if(Queues.getUrlQueue().isEmpty()){
 				logger.info("pollDB - empty queue");
@@ -62,15 +62,12 @@ public class DBPoller implements Runnable {
 				dbpoller.pollDB();
 			}
 		} catch (InterruptedException e) {
+			isPolling=false;
 			logger.error("unable to start DBPoller", e);
 		}
 		
 	}
 	
-	@PreDestroy
-	public void cleanUp() throws Exception {
-	  logger.info("Destroying DB Poller");
-	  isPolling = false;
-	}
+
 
 }

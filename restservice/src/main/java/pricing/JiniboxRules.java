@@ -14,7 +14,7 @@ public class JiniboxRules {
 	JiniboxSkuDetailsDAO dao = JiniboxSkuDetailsDAO.getJiniboxSkuDetailsDAO();
 	
 	
-	public void generateOurPrice(String sku){
+	public Double generateOurPrice(String sku){
 		
 		JiniboxSkuDetails details = new JiniboxSkuDetails();
 		details.setSku(sku);
@@ -76,9 +76,11 @@ public class JiniboxRules {
 			
 			dao.saveOrUpdate(jiniboxSkuDetails);
 			
+			return ourPrice;
+			
 		}else{
 			log.info("For the SKU "+sku+" list was null or list.size was not equal to 1");
-			
+			return null;
 		}
 		
 	}

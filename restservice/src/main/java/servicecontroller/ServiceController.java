@@ -1,9 +1,13 @@
 package servicecontroller;
 
+import hibernate.bean.JiniboxSkuDetails;
 import hibernate.bean.SkuDetails;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +21,7 @@ import org.apache.log4j.Logger;
 import bao.GetPriceBAO;
 import poller.DBPoller;
 import poller.QueuePoller;
+import pricing.JiniboxRules;
 
 @RestController
 public class ServiceController {
@@ -35,11 +40,25 @@ public class ServiceController {
                             String.format(template, name));
     }
     
-    @RequestMapping("/getPrice")
-    public List<SkuDetails> getPrice(@RequestParam(value="sku", defaultValue="JN41345195") String sku) {
-    	logger.info("insisde getPrice method");
-        List<SkuDetails> list = new GetPriceBAO().getPriceDetailsForSku(sku);
+    @RequestMapping("/getAllPrice")
+    public JiniboxSkuDetails getPrice(@RequestParam(value="sku", defaultValue="JN41345195") String sku) {
+    	logger.info("inside getPrice method");
+        JiniboxSkuDetails list = new GetPriceBAO().getPriceDetailsForSku(sku);
         return list;
+    }
+    
+    @RequestMapping("/generateOurPrice")
+    public Double generateOurPrice(@RequestParam(value="sku") String sku) {
+    	logger.info("inside generateOurPrice method");
+        Double price = new JiniboxRules().generateOurPrice(sku);
+        return price;
+    }
+    
+    @RequestMapping("/publishPrice")
+    public Double publishPrice(@RequestParam(value="sku") String sku) {
+    	logger.info("inside publishPrice method");
+        Double price = new GetPriceBAO().publishPrice(sku);
+        return price;
     }
     
     @Bean
@@ -59,6 +78,32 @@ public class ServiceController {
     	QueuePoller queuepoller = new QueuePoller();
     	new Thread(queuepoller).start();
     	return queuepoller;
+    }
+    
+    Thread qThread=null;
+    Thread dbThread=null;
+    @PostConstruct
+    public void init(){
+    	
+    		logger.info("calling init on preconstruct");
+    		if(qThread == null){
+    			qThread = new Thread(new QueuePoller());
+                dbThread = new Thread(new DBPoller());
+                
+                qThread.start();
+                dbThread.start();
+    		}
+    	
+    }
+    
+    @PreDestroy
+    public void destroy(){
+    	
+    	logger.info("calling destroy on predestroy");
+    	qThread.interrupt();
+    	
+    	dbThread.interrupt();
+    	
     }
 
 }

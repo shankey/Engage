@@ -24,24 +24,5 @@ public class Application  extends SpringBootServletInitializer {
         
     }
     
-    Thread qThread=null;
-    Thread dbThread=null;
-    @PostConstruct
-    public void init(){
-    	if(qThread==null){
-    		qThread = new Thread(new QueuePoller());
-            dbThread = new Thread(new DBPoller());
-            
-            qThread.start();
-            dbThread.start();
-    	}
-    	
-    }
     
-    /*@PreDestroy
-    public void destroy(){
-    	qThread.interrupt();
-    	
-    	dbThread.interrupt();
-    }*/
 }
