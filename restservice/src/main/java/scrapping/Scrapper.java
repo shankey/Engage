@@ -35,6 +35,11 @@ public class Scrapper {
 	}
 	
 	private String getParsedValue(Map<Integer, List<StepPattern>> pattern, Document doc){
+		
+		if(pattern == null){
+			return null;
+		}
+		
 		Element output = selectBestParse(pattern, doc);
 		if(output!=null){
 			return Utility.cleanWebString(output.text());
