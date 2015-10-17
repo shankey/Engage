@@ -1,21 +1,17 @@
 package hibernate.util;
 
+import hibernate.bean.Url;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-
-
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-
-import hibernate.bean.SkuDetails;
-import hibernate.bean.Url;
 
 public class UrlDAO {
 	

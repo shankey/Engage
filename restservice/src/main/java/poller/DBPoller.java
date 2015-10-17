@@ -1,14 +1,11 @@
 package poller;
 
-import java.util.List;
-
-import javax.annotation.PreDestroy;
-
-import org.apache.log4j.Logger;
-
 import hibernate.bean.Url;
 import hibernate.util.UrlDAO;
-import Common.Utility;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 public class DBPoller implements Runnable {
 	
@@ -51,7 +48,7 @@ public class DBPoller implements Runnable {
 				}
 				
 			}
-			Thread.sleep(Utility.SECOND*60); // 1 minute wait
+			//Thread.sleep(Utility.SECOND*60); // 1 minute wait
 		}
 	}
 
