@@ -16,7 +16,7 @@ public class InstaAPIWrapper {
         HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59");
         
-        url = InstaAPIEndPoints.SCHEME_HTTPS + InstaAPIEndPoints.BASE_URL + InstaAPIEndPoints.TIMELINE_URL;
+        url = InstaAPIEndPoints.SCHEME_HTTPS + InstaAPIEndPoints.TIMELINE_URL;
 
 //        try {
 //            apiClient.writePostData(apiClient.getPostDataString1(postData));

@@ -17,6 +17,8 @@ public class User implements Comparable<Url> {
 	private Integer mentions;
 	private String location;
 	private String bioData;
+	private Integer status;
+	private Integer userId;
 	
 	
 	@Id
@@ -67,6 +69,22 @@ public class User implements Comparable<Url> {
 	}
 	public void setBioData(String bioData) {
 		this.bioData = bioData;
+	}
+	
+	@Column(name = "Status")
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+	
+	@Column(name = "UserId")
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 	

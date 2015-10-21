@@ -1,11 +1,13 @@
 package poller;
 
-import hibernate.bean.Url;
-import hibernate.util.UrlDAO;
+import hibernate.bean.User;
+import hibernate.dao.UserDAO;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
+
+import com.engage.common.Utility;
 
 public class DBPoller implements Runnable {
 	
@@ -16,8 +18,8 @@ public class DBPoller implements Runnable {
 	
 	public void pollDB() throws InterruptedException{
 		isPolling = true;
-		UrlDAO dao = UrlDAO.getUrlDao();
-		List<Url> list;
+		UserDAO dao = UserDAO.getUrlDao();
+		List<User> list;
 		while(!Thread.currentThread().isInterrupted()){
 			logger.info("inside while of pollDB "+ Thread.currentThread().isInterrupted());
 			// if the queue is not empty then try to poll DB and fill queue
@@ -25,11 +27,13 @@ public class DBPoller implements Runnable {
 				logger.info("pollDB - empty queue");
 				
 				//poll for a few items
-				list = dao.getOutdatedUrlDetails();
+				User user = new User();
+				user.setStatus(0);
+				list = dao.zeroHandles(user);
 				logger.info("polled DB list of " + list.size());
 				
-				for(Url url : list){
-					logger.info(url.getSku() + url.getListPricePattern());
+				for(User li : list){
+					logger.info(li.getHandle());
 				}
 				//Insert them in a queue
 				//Adding all items to a queue.
@@ -48,7 +52,7 @@ public class DBPoller implements Runnable {
 				}
 				
 			}
-			//Thread.sleep(Utility.SECOND*60); // 1 minute wait
+			Thread.sleep(Utility.SECOND*60); // 1 minute wait
 		}
 	}
 
