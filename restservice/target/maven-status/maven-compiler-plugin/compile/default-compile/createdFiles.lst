@@ -1,11 +1,9 @@
 hibernate/util/HibernateTestApp.class
 hibernate/util/HibernateUtil.class
-poller/QueuePoller.class
-servicecontroller/ServiceController.class
+com/engage/api/wrapper/ApiClient$1.class
 poller/Queues.class
 servicecontroller/Greeting.class
-hibernate/bean/Test.class
 poller/DBPoller.class
+hibernate/bean/Test.class
 hibernate/bean/Url.class
-servicecontroller/Application.class
 hibernate/util/UrlDAO.class
