@@ -35,7 +35,7 @@ public class Post {
 	public String getOwnerId() {
 		return ownerId;
 	}
-	public void setUserId(String ownerId) {
+	public void setOwnerId(String ownerId) {
 		this.ownerId = ownerId;
 	}
 	
@@ -72,6 +72,10 @@ public class Post {
 	}
 	public void setComments(Integer comments) {
 		this.comments = comments;
+	}
+	
+	public String toString(){
+		return ownerId + " " + postId;
 	}
 
 	

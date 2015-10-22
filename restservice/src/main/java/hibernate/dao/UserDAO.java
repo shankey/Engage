@@ -20,7 +20,7 @@ public class UserDAO {
 		
 	}
 	
-	public static UserDAO getUrlDao(){
+	public static UserDAO getUserDao(){
 		return dao;
 	}
 	
@@ -32,7 +32,7 @@ public class UserDAO {
 			Criteria cr = session.createCriteria(User.class);
 			
 			
-			cr.add(Restrictions.le("handle", user.getHandle()));
+			cr.add(Restrictions.le("userId", user.getUserId()));
 
 			User result = (User)cr.uniqueResult();
 		

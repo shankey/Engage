@@ -18,7 +18,7 @@ public class DBPoller implements Runnable {
 	
 	public void pollDB() throws InterruptedException{
 		isPolling = true;
-		UserDAO dao = UserDAO.getUrlDao();
+		UserDAO dao = UserDAO.getUserDao();
 		List<User> list;
 		while(!Thread.currentThread().isInterrupted()){
 			logger.info("inside while of pollDB "+ Thread.currentThread().isInterrupted());
