@@ -38,7 +38,7 @@ public class Utility {
 		JSONParser parser = new JSONParser();
       
 			JSONObject object = (JSONObject)parser.parse(str);
-			System.out.println(object);
+			//System.out.println(object);
 			
 			return object;
 

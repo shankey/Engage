@@ -1,12 +1,12 @@
 package com.engage.bao;
 
+import hibernate.bean.Post;
+import hibernate.dao.PostDAO;
+
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import poller.DBPoller;
 
 import com.engage.api.wrapper.InstaAPIEndPoints;
 import com.engage.api.wrapper.InstaAPIWrapper;
@@ -15,14 +15,15 @@ import com.engage.common.Utility;
 public class TimelineBAO {
 	
 	private static Logger logger = Logger.getLogger(TimelineBAO.class);
+	PostDAO dao = PostDAO.getPostDao();
 	
-	public void getTimelineData(String id){
+	public void getTimelineData(String userId){
 		
 		String maxId = null;
 		
 		while(true){
 			
-			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", "781685528"), InstaAPIEndPoints.ACCESS_TOKEN, 
+			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", userId), InstaAPIEndPoints.ACCESS_TOKEN, 
 					Utility.get30DayOldTimeStamp(), maxId);
 			
 			if(response==null){
@@ -42,7 +43,12 @@ public class TimelineBAO {
 			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
-				System.out.println(dataJsonObj.get("id"));
+				
+				Post post = new Post();
+				post.setUserId(Integer.parseInt(userId));
+				System.out.println((String)dataJsonObj.get("id"));
+				post.setPostId((String)dataJsonObj.get("id"));
+				dao.update(post);
 			}
 			
 			

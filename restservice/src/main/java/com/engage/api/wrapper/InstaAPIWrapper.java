@@ -52,7 +52,7 @@ public class InstaAPIWrapper {
         }
         
         if(response != null){
-        	System.out.println(response);
+        	//System.out.println(response);
         }
         
         return response;
