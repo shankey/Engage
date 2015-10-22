@@ -32,7 +32,7 @@ public class InstaAPIWrapper {
         	
 	}
 	
-	public static String callTimeLine(String api, String accessToken, Long timeStamp, Long maxId){
+	public static String callTimeLine(String api, String accessToken, Long timeStamp, String maxId){
 		HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", accessToken);
         postData.put("min_timestamp", timeStamp.toString());
@@ -66,7 +66,7 @@ public class InstaAPIWrapper {
 		long unixTime = System.currentTimeMillis() / 1000L;
 		long unixTime30DayPrevious = unixTime - (30 * 24 * 60 * 60);
         String response = callTimeLine(InstaAPIEndPoints.TIMELINE_URL, "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59", 
-        		unixTime30DayPrevious, 0L);
+        		unixTime30DayPrevious, null);
         
 //        JSONParser parser = new JSONParser();
 //        try {

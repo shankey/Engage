@@ -3,16 +3,13 @@ package com.engage.bao;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import poller.DBPoller;
 
 import com.engage.api.wrapper.InstaAPIEndPoints;
 import com.engage.api.wrapper.InstaAPIWrapper;
 import com.engage.common.Utility;
 
-public class TimelineBAO {
+public class UserInfoBAO {
 	
 	private static Logger logger = Logger.getLogger(TimelineBAO.class);
 	
