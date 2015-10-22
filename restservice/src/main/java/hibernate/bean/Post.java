@@ -11,7 +11,7 @@ public class Post {
 
 	@Id
 	private Integer id;
-	private Integer userId;
+	private String ownerId;
 	private String postId;
 	private String network;
 	private Integer likes;
@@ -26,12 +26,12 @@ public class Post {
 		this.id = id;
 	}
 	
-	@Column(name = "UserId")
-	public Integer getUserId() {
-		return userId;
+	@Column(name = "OwnerId")
+	public String getOwnerId() {
+		return ownerId;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUserId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 	
 	@Column(name = "PostId")

@@ -18,7 +18,7 @@ public class User implements Comparable<Url> {
 	private String location;
 	private String bioData;
 	private Integer status;
-	private Integer userId;
+	private String userId;
 	
 	
 	@Id
@@ -80,10 +80,10 @@ public class User implements Comparable<Url> {
 	}
 	
 	@Column(name = "UserId")
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	
