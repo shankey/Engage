@@ -35,4 +35,7 @@ public class Likes {
 		this.likeHandle = likeHandle;
 	}
 
+	public String toString(){
+		return likeHandle + " " + postId;
+	}
 }

@@ -99,5 +99,9 @@ public class User implements Comparable<Url> {
 		return 0;
 	}
 	
+	public String toString(){
+		return handle + " " + userId;
+	}
+	
 	
 }

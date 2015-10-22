@@ -34,5 +34,9 @@ public class Comments {
 	public void setCommentHandle(String commentHandle) {
 		this.commentHandle = commentHandle;
 	}
+	
+	public String toString(){
+		return commentHandle + " " + postId;
+	}
 
 }
