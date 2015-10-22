@@ -1,16 +1,27 @@
 package hibernate.bean;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+
+@Entity
+@Table(name = "Likes")
 public class Likes {
 	
 	@Id
 	private Integer id;
 	private String postId;
 	private String likeHandle;
+	private String userId;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
 	@Column(name = "Id", unique = true, nullable = false)
 	public Integer getId() {
 		return id;
@@ -34,7 +45,16 @@ public class Likes {
 	public void setLikeHandle(String likeHandle) {
 		this.likeHandle = likeHandle;
 	}
-
+	
+	@Column(name = "UserId")
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	
+	
 	public String toString(){
 		return likeHandle + " " + postId;
 	}

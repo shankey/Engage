@@ -35,7 +35,7 @@ public class PostDAO {
 			}
 			
 			if(post.getOwnerId()!=null){
-				cr.add(Restrictions.le("userId", post.getOwnerId()));
+				cr.add(Restrictions.le("ownerId", post.getOwnerId()));
 			}
 
 			Post result = (Post)cr.uniqueResult();
