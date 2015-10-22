@@ -12,8 +12,8 @@ public class Post {
 	@Id
 	private Integer id;
 	private Integer userId;
-	private Integer postId;
-	private Integer network;
+	private String postId;
+	private String network;
 	private Integer likes;
 	private Integer comments;
 	
@@ -35,19 +35,19 @@ public class Post {
 	}
 	
 	@Column(name = "PostId")
-	public Integer getPostId() {
+	public String getPostId() {
 		return postId;
 	}
-	public void setPostId(Integer postId) {
+	public void setPostId(String postId) {
 		this.postId = postId;
 	}
 	
 	@Column(name = "Network")
-	public Integer getNetwork() {
+	public String getNetwork() {
 		return network;
 	}
 	
-	public void setNetwork(Integer network) {
+	public void setNetwork(String network) {
 		this.network = network;
 	}
 	
