@@ -58,7 +58,32 @@ public class InstaAPIWrapper {
         return response;
         	
 	}
-		
+	
+	public static String getFollowers(String api, String accessToken, String nextCursor){
+		HashMap<String, String> postData = new HashMap<>();
+        postData.put("access_token", accessToken);
+        if(nextCursor != null) {
+            postData.put("next_cursor", nextCursor);
+        }
+        
+        String url = InstaAPIEndPoints.SCHEME_HTTPS + InstaAPIEndPoints.BASE_URL + api;
+
+        String response = null;
+        try{
+            ApiClient apiClient = new ApiClient(ApiClient.CallType.HTTPS_GET, url, postData, false);
+        	response = apiClient.executeCall();
+            apiClient.disconnect();
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+        
+        if(response != null){
+        	//System.out.println(response);
+        }
+        
+        return response;
+        	
+	}	
 		
 
 	public static void main2(String[] args) {		
