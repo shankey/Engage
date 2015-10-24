@@ -15,6 +15,8 @@ import com.engage.bao.CommentsBAO;
 import com.engage.bao.LikesBAO;
 import com.engage.bao.TimelineBAO;
 import com.engage.common.Utility;
+import com.engage.threads.ThreadPool;
+import com.engage.threads.WorkerThread;
 
 
 public class QueuePoller implements Runnable {
@@ -38,23 +40,7 @@ public void pollQueue() throws InterruptedException{
 				logger.info("Queue was not empty");
 				QueueObject queueObject = Queues.getQueue().poll();
 				
-				switch (queueObject.getType()){
-				
-					case 1 :
-						User user = (User)queueObject.getObj();
-						new TimelineBAO().getTimelineData(user.getUserId());
-						break;
-					case 2 :
-						Post postLike = (Post)queueObject.getObj();
-						new LikesBAO().getLikesData(postLike.getPostId(), InstaAPIEndPoints.ACCESS_TOKEN);
-						break;
-					case 3 :
-						Post postComment = (Post)queueObject.getObj();
-						new CommentsBAO().getCommentsData(postComment.getPostId(), InstaAPIEndPoints.ACCESS_TOKEN);
-						break;
-				
-				}
-				
+				ThreadPool.executor.execute(new WorkerThread(queueObject));
 				
 				logger.info(queueObject);
 				

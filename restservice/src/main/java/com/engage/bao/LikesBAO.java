@@ -46,8 +46,8 @@ public class LikesBAO {
 			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
-				JSONObject fromJson = (JSONObject) dataJsonObj.get("from");
-				String likeHandle = (String) fromJson.get("username");
+				
+				String likeHandle = (String) dataJsonObj.get("username");
 				String likeId = (String) dataJsonObj.get("id");
 				
 				Likes like = new Likes();

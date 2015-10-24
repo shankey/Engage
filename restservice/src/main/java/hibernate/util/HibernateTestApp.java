@@ -1,5 +1,8 @@
 package hibernate.util;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import com.engage.bao.UserInfoBAO;
 import com.engage.common.Log;
 import com.mchange.v2.log.MLevel;
@@ -17,6 +20,9 @@ public class HibernateTestApp {
 	public static void main(String[] args) {
 ////		new TimelineBAO().getTimelineData("781685528");
 		new Log();
+		System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+		System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "INFO");
+		Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 		
 		
 		Thread qThread;
