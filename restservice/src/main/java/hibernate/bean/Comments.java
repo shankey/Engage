@@ -16,7 +16,7 @@ public class Comments {
 	private Integer id;
 	private String postId;
 	private String commentHandle;
-	private String userId;
+	private String commentId;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +45,12 @@ public class Comments {
 		this.commentHandle = commentHandle;
 	}
 	
-	@Column(name = "UserId")
-	public String getUserId() {
-		return userId;
+	@Column(name = "CommentId")
+	public String getCommentId() {
+		return commentId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCommentId(String commentId) {
+		this.commentId = commentId;
 	}
 	public String toString(){
 		return commentHandle + " " + postId;

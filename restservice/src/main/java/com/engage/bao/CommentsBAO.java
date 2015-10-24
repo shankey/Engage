@@ -44,13 +44,13 @@ public class CommentsBAO {
 			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
-				JSONObject fromJsonObject = (JSONObject) dataJsonObj.get("from");
-				String commentHandle = (String) fromJsonObject.get("username");
-				String userId = (String) fromJsonObject.get("id");
+				JSONObject fromJson = (JSONObject) dataJsonObj.get("from");
+				String commentHandle = (String) fromJson.get("username");
+				String commentId = (String) dataJsonObj.get("id");
 				
 				Comments comment = new Comments();
 				comment.setCommentHandle(commentHandle);
-				comment.setUserId(userId);
+				comment.setCommentId(commentId);
 				comment.setPostId(postId);
 				
 				dao.update(comment);

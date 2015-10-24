@@ -17,8 +17,9 @@ public class Post {
 	private String ownerId;
 	private String postId;
 	private String network;
-	private Integer likes;
-	private Integer comments;
+	private Long likes;
+	private Long comments;
+	private Integer status;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,23 +58,30 @@ public class Post {
 	}
 	
 	@Column(name = "Likes")
-	public Integer getLikes() {
+	public Long getLikes() {
 		return likes;
 	}
 	
-	public void setLikes(Integer likes) {
+	public void setLikes(Long likes) {
 		this.likes = likes;
 	}
 	
 	
 	@Column(name = "Comments")
-	public Integer getComments() {
+	public Long getComments() {
 		return comments;
 	}
-	public void setComments(Integer comments) {
+	public void setComments(Long comments) {
 		this.comments = comments;
 	}
 	
+	@Column(name = "Status")
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 	public String toString(){
 		return ownerId + " " + postId;
 	}

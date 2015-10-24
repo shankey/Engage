@@ -1,5 +1,9 @@
 package com.engage.bao;
 
+import hibernate.bean.User;
+import hibernate.dao.PostDAO;
+import hibernate.dao.UserDAO;
+
 import org.apache.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -10,59 +14,50 @@ import com.engage.api.wrapper.InstaAPIWrapper;
 import com.engage.common.Utility;
 
 public class UserInfoBAO {
+	private static Logger logger = Logger.getLogger(UserInfoBAO.class);
+	UserDAO udao = UserDAO.getUserDao();
 	
-	private static Logger logger = Logger.getLogger(TimelineBAO.class);
-	
-	public void getTimelineData(String id){
+	public void getUserData(String userId){
+		String response = InstaAPIWrapper.call(InstaAPIEndPoints.PROFILE_BIO.replaceAll("\\{user-id\\}", userId), 
+				InstaAPIEndPoints.ACCESS_TOKEN);
+		System.out.println("bansal "+response);
 		
-		String maxId = null;
+		if(response==null){
+			return;
+		}
 		
-		while(true){
+		JSONObject object=null;
+		try {
+			object = Utility.convertToJSON(response);
 			
-			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", "781685528"), InstaAPIEndPoints.ACCESS_TOKEN, 
-					Utility.get30DayOldTimeStamp(), maxId);
-			
-			if(response==null){
-				break;
+		} catch (ParseException e) {
+			logger.error("Unable to parse JSON", e);
+		}
+		
+		JSONObject dataJsonObj = (JSONObject)object.get("data");
+		
+		User user = new User();
+		user.setUserId(userId);
+		
+		
+		User existingUser = udao.getUserDetails(user);
+		if(existingUser!=null){
+			if(dataJsonObj != null) {
+				existingUser.setHandle((String)dataJsonObj.get("username"));
+				existingUser.setBioData((String)dataJsonObj.get("bio"));
+				udao.update(existingUser);
 			}
-			
-			JSONObject object=null;
-			try {
-				object = Utility.convertToJSON(response);
-			} catch (ParseException e) {
-				logger.error("Unable to parse JSON", e);
-			}
-			
-			
-			JSONArray dataJson = (JSONArray)object.get("data");
-			//System.out.println(dataJson);
-			
-			for(int i=0; i<dataJson.size(); i++){
-				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
-				System.out.println(dataJsonObj.get("id"));
-			}
-			
-			
-			JSONObject paginationJson = (JSONObject) object.get("pagination");
-			
-			if(paginationJson==null){
-				break;
-			}
-			
-			//System.out.println(paginationJson);
-			maxId = (String)paginationJson.get("next_max_id");
-			
-			if(maxId==null){
-				break;
+		}else{
+			if(dataJsonObj != null) {
+				user.setHandle((String)dataJsonObj.get("username"));
+				user.setBioData((String)dataJsonObj.get("bio"));
+				udao.update(user);
 			}
 			
 		}
-				
-		
-			
-			
 		
 		
+		
+		System.out.println("bansal "+response);
 	}
-
 }

@@ -17,7 +17,7 @@ public class Likes {
 	private Integer id;
 	private String postId;
 	private String likeHandle;
-	private String userId;
+	private String likeId;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,12 +46,12 @@ public class Likes {
 		this.likeHandle = likeHandle;
 	}
 	
-	@Column(name = "UserId")
-	public String getUserId() {
-		return userId;
+	@Column(name = "LikeId")
+	public String getLikeId() {
+		return likeId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setLikeId(String userId) {
+		this.likeId = userId;
 	}
 	
 	
