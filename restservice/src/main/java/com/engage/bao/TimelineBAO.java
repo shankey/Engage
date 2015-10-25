@@ -32,8 +32,8 @@ public class TimelineBAO {
 		
 		while(true){
 			
-			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", userId), InstaAPIEndPoints.ACCESS_TOKEN, 
-					Utility.get30DayOldTimeStamp(), maxId);
+			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", userId),
+					InstaAPIEndPoints.getAccessToken(), Utility.get30DayOldTimeStamp(), maxId);
 			
 			if(response==null){
 				break;

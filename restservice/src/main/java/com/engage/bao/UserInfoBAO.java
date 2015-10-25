@@ -19,7 +19,7 @@ public class UserInfoBAO {
 	
 	public void getUserData(String userId){
 		String response = InstaAPIWrapper.call(InstaAPIEndPoints.PROFILE_BIO.replaceAll("\\{user-id\\}", userId), 
-				InstaAPIEndPoints.ACCESS_TOKEN);
+				InstaAPIEndPoints.getAccessToken());
 		System.out.println("bansal "+response);
 		
 		if(response==null){

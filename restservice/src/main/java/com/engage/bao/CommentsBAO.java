@@ -23,7 +23,7 @@ public class CommentsBAO {
 	
 	public void getCommentsData(String postId, String accessToken){
 		
-			String response = InstaAPIWrapper.call(InstaAPIEndPoints.POST_COMMENTS.replaceAll("\\{media-id\\}", postId), accessToken);
+			String response = InstaAPIWrapper.call(InstaAPIEndPoints.POST_COMMENTS.replaceAll("\\{media-id\\}", postId), InstaAPIEndPoints.getAccessToken());
 			
 			
 			JSONObject object=null;
