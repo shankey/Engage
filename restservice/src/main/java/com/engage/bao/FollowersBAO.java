@@ -31,7 +31,7 @@ public class FollowersBAO {
 		}
 		while(true){
 			String response = InstaAPIWrapper.getFollowers(InstaAPIEndPoints.INSTA_FOLLOWERS.replaceAll("\\{user-id\\}", userId), 
-					InstaAPIEndPoints.ACCESS_TOKEN, nextCursor);
+					InstaAPIEndPoints.getAccessToken(), nextCursor);
 			if(response==null){
 				break;
 			}

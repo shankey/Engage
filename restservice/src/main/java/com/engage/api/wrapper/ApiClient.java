@@ -158,6 +158,9 @@ public class ApiClient {
         connHttps.disconnect();
     }
 
+    public void changeAccessToken() {
+    	
+    }
 //    public String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
 //        StringBuilder result = new StringBuilder();
 //        boolean first = true;

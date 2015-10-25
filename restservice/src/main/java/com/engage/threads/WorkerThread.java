@@ -29,11 +29,11 @@ import hibernate.bean.User;
 				break;
 			case 2 :
 				Post postLike = (Post)object.getObj();
-				new LikesBAO().getLikesData(postLike.getPostId(), InstaAPIEndPoints.ACCESS_TOKEN);
+				new LikesBAO().getLikesData(postLike.getPostId(), InstaAPIEndPoints.getAccessToken());
 				break;
 			case 3 :
 				Post postComment = (Post)object.getObj();
-				new CommentsBAO().getCommentsData(postComment.getPostId(), InstaAPIEndPoints.ACCESS_TOKEN);
+				new CommentsBAO().getCommentsData(postComment.getPostId(), InstaAPIEndPoints.getAccessToken());
 				break;
 		
 		}
