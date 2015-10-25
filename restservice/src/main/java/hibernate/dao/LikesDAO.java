@@ -45,6 +45,38 @@ public class LikesDAO {
 		
 	}
 	
+	public void batchUpdate(List<Likes> likes){
+		Session session=null;
+		Transaction tx=null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.getTransaction();	
+			tx.begin();
+			int i=0;
+			for(Likes like : likes){
+				
+				session.merge(like);
+				i++;
+				if(i%40==0){
+					session.flush();
+					session.clear();
+				}
+			}
+			
+			tx.commit();
+				
+		}catch(Exception e){
+			logger.error("Error while updating User "+ likes, e);
+			
+		}finally{
+			if(session!=null){
+				session.flush();
+				session.close();
+			}
+		}
+	}
+	
+	
 	
 	public void update(Likes likes){
 		Session session=null;

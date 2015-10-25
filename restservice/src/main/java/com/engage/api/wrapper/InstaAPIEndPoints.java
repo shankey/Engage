@@ -12,6 +12,8 @@ public class InstaAPIEndPoints {
     public static final String PROFILE_BIO = "/v1/users/{user-id}";
 
 	public static final String TIMELINE_URL = "/v1/users/781685528/media/recent";
-	public static final String ACCESS_TOKEN = "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59";
+	public static final String ACCESS_TOKEN = "50856010.1fb234f.f483d43ea6f843eb847409527b539922";
+	//1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59
+	
 
 }

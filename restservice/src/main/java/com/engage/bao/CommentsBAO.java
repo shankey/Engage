@@ -1,5 +1,8 @@
 package com.engage.bao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hibernate.bean.Comments;
 import hibernate.bean.Post;
 import hibernate.bean.User;
@@ -42,6 +45,8 @@ public class CommentsBAO {
 			JSONArray dataJson = (JSONArray)object.get("data");
 			System.out.println(dataJson);
 			
+			List<Comments> commentList = new ArrayList<Comments>();
+			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
 				JSONObject fromJson = (JSONObject) dataJsonObj.get("from");
@@ -53,8 +58,9 @@ public class CommentsBAO {
 				comment.setCommentId(commentId);
 				comment.setPostId(postId);
 				
-				dao.update(comment);
+				commentList.add(comment);
 			}
+			dao.batchUpdate(commentList);
 	}
 
 }

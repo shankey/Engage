@@ -29,7 +29,7 @@ public class Utility {
 	
 	public static Long get30DayOldTimeStamp(){
 		long unixTime = System.currentTimeMillis() / 1000L;
-		long unixTime30DayPrevious = unixTime - (100 * 24 * 60 * 60);
+		long unixTime30DayPrevious = unixTime - (30 * 24 * 60 * 60);
 		
 		return unixTime30DayPrevious;
 	}

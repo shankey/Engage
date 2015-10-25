@@ -1,5 +1,7 @@
 package poller;
 
+import java.io.IOException;
+
 import hibernate.bean.Comments;
 import hibernate.bean.Likes;
 import hibernate.bean.Post;
@@ -14,6 +16,7 @@ import com.engage.api.wrapper.InstaAPIEndPoints;
 import com.engage.bao.CommentsBAO;
 import com.engage.bao.LikesBAO;
 import com.engage.bao.TimelineBAO;
+import com.engage.common.Log;
 import com.engage.common.Utility;
 import com.engage.threads.ThreadPool;
 import com.engage.threads.WorkerThread;
@@ -25,7 +28,7 @@ public class QueuePoller implements Runnable {
 	private static Logger logger = Logger.getLogger(QueuePoller.class);
 	public boolean isPolling = false;
 	
-public void pollQueue() throws InterruptedException{
+public void pollQueue() throws InterruptedException, IOException{
 	
 		
 		
@@ -43,6 +46,7 @@ public void pollQueue() throws InterruptedException{
 				ThreadPool.executor.execute(new WorkerThread(queueObject));
 				
 				logger.info(queueObject);
+				Log.write(queueObject.toString() + "\n");
 				
 			}
 			Thread.sleep(Utility.SECOND*1); // 1 minute wait
@@ -56,7 +60,7 @@ public void pollQueue() throws InterruptedException{
 			if(!isPolling){
 				queuepoller.pollQueue();
 			}
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | IOException e) {
 			isPolling = false;
 			logger.error("Unable to launch queuepoller or stopping queue poller", e);
 		}

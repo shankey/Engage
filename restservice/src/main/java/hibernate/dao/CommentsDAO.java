@@ -4,6 +4,7 @@ import java.util.List;
 
 import hibernate.bean.Comments;
 import hibernate.bean.Likes;
+import hibernate.bean.Post;
 import hibernate.bean.User;
 import hibernate.util.HibernateUtil;
 
@@ -44,6 +45,37 @@ public class CommentsDAO {
 			return null;
 		}
 		
+	}
+	
+	public void batchUpdate(List<Comments> comments){
+		Session session=null;
+		Transaction tx=null;
+		try{
+			session = HibernateUtil.getSessionFactory().openSession();
+			tx = session.getTransaction();	
+			tx.begin();
+			int i=0;
+			for(Comments comment : comments){
+				
+				session.merge(comment);
+				i++;
+				if(i%50==0){
+					session.flush();
+					session.clear();
+				}
+			}
+			
+			tx.commit();
+				
+		}catch(Exception e){
+			logger.error("Error while updating User "+ comments, e);
+			
+		}finally{
+			if(session!=null){
+				session.flush();
+				session.close();
+			}
+		}
 	}
 	
 	

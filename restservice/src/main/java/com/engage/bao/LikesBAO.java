@@ -1,5 +1,8 @@
 package com.engage.bao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import hibernate.bean.Comments;
 import hibernate.bean.Likes;
 import hibernate.bean.Post;
@@ -44,6 +47,8 @@ public class LikesBAO {
 			JSONArray dataJson = (JSONArray)object.get("data");
 			System.out.println(dataJson);
 			
+			List<Likes> likeList = new ArrayList<Likes>();
+			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
 				
@@ -54,9 +59,11 @@ public class LikesBAO {
 				like.setLikeHandle(likeHandle);
 				like.setLikeId(likeId);
 				like.setPostId(postId);
+				likeList.add(like);
 				
-				dao.update(like);
+				
 			}
+			dao.batchUpdate(likeList);
 	}
 
 }

@@ -117,7 +117,7 @@ public class TimelineBAO {
 			
 			//System.out.println(paginationJson);
 			maxId = (String)paginationJson.get("next_max_id");
-			logger.info("Fetching Next Page of Posts For User "+userId);
+			
 			if(maxId==null){
 				break;
 			}
