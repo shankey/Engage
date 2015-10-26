@@ -3,6 +3,17 @@ package hibernate.util;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD
+=======
+import com.engage.bao.FollowersBAO;
+import com.engage.bao.UserInfoBAO;
+import com.mchange.v2.log.MLevel;
+
+import hibernate.bean.Post;
+import hibernate.bean.User;
+import hibernate.dao.PostDAO;
+import hibernate.dao.UserDAO;
+>>>>>>> branch 'master' of https://github.com/shankey/Engage
 import poller.DBPoller;
 import poller.QueuePoller;
 
@@ -35,7 +46,7 @@ public class HibernateTestApp {
 		System.out.println(InstaAPIEndPoints.getAccessToken());
 		System.out.println(InstaAPIEndPoints.getAccessToken());
 		
-//		new UserInfoBAO().getUserData("781685528");
+		new UserInfoBAO().getUserData("781685528");
 
 	}
 }

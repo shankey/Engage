@@ -24,14 +24,16 @@ public class FollowersBAO {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("Followers-ID.txt", "UTF-8");
+			System.out.println("writer initialized");
 		}catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		while(true){
+			String access_token = InstaAPIEndPoints.getAccessToken();
 			String response = InstaAPIWrapper.getFollowers(InstaAPIEndPoints.INSTA_FOLLOWERS.replaceAll("\\{user-id\\}", userId), 
-					InstaAPIEndPoints.getAccessToken(), nextCursor);
+					access_token, nextCursor);
 			if(response==null){
 				break;
 			}
@@ -68,6 +70,7 @@ public class FollowersBAO {
 		}
 		if(writer != null) {
 			writer.close();
+			System.out.println("writer closed");
 		}
 	}
 }
