@@ -135,23 +135,15 @@ public class ApiClient {
     }
 
     public String executeCall() throws IOException {
-        switch (callType) {
-            case HTTPS_GET:
-                mResponseCode = connHttps.getResponseCode();
-                return readStream(connHttps.getInputStream());
-            case HTTPS_POST:
-                if(writer != null) {
-                    writer.flush();
-                    writer.close();
-                    outputStream.close();
-                }
-                mResponseCode = connHttps.getResponseCode();
-                return readStream(connHttps.getInputStream());
-            case HTTPS_DELETE:
-                mResponseCode = connHttps.getResponseCode();
-                return readStream(connHttps.getInputStream());
+    	InputStream _is;
+    	mResponseCode = connHttps.getResponseCode();
+        if(mResponseCode == 200) {
+        	_is = connHttps.getInputStream();
         }
-        return null;
+        else {
+        	_is = connHttps.getErrorStream();
+        }
+        return readStream(_is);
     }
 
     public void disconnect() {
