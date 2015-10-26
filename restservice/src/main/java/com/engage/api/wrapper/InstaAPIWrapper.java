@@ -63,7 +63,7 @@ public class InstaAPIWrapper {
 		HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", accessToken);
         if(nextCursor != null && !nextCursor.equals("")) {
-            postData.put("next_cursor", nextCursor);
+            postData.put("cursor", nextCursor);
         }
         
         String url = InstaAPIEndPoints.SCHEME_HTTPS + InstaAPIEndPoints.BASE_URL + api;
