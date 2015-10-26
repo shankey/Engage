@@ -22,6 +22,7 @@ public class User implements Comparable<Url> {
 	private String bioData;
 	private Integer status;
 	private String userId;
+	private Integer userError;
 	
 	
 	@Id
@@ -92,7 +93,13 @@ public class User implements Comparable<Url> {
 		this.userId = userId;
 	}
 	
-	
+	@Column(name = "UserError")
+	public Integer getUserError() {
+		return userError;
+	}
+	public void setUserError(Integer userError) {
+		this.userError = userError;
+	}
 	@Override
 	public int compareTo(Url o) {
 		// TODO Auto-generated method stub

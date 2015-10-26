@@ -26,7 +26,7 @@ public class TimelineBAO {
 	PostDAO dao = PostDAO.getPostDao();
 	UserDAO udao = UserDAO.getUserDao();
 	
-	public void getTimelineData(String userId){
+	public void getTimelineData(String userId) throws Exception{
 		
 		String maxId = null;
 		
@@ -34,6 +34,7 @@ public class TimelineBAO {
 			
 			String response = InstaAPIWrapper.callTimeLine(InstaAPIEndPoints.TIMELINE_FEED.replaceAll("\\{user-id\\}", userId),
 					InstaAPIEndPoints.getAccessToken(), Utility.get30DayOldTimeStamp(), maxId);
+			
 			
 			if(response==null){
 				break;
@@ -44,6 +45,27 @@ public class TimelineBAO {
 				object = Utility.convertToJSON(response);
 			} catch (ParseException e) {
 				logger.error("Unable to parse JSON", e);
+			}
+			
+			JSONObject metaObject =  (JSONObject)object.get("meta");
+			String errorCode = (String)metaObject.get("code");
+
+			User user = new User();
+			user.setUserId(userId);
+			if(errorCode.equals("429")){
+				
+				User existingUser = udao.getUserDetails(user);
+				existingUser.setStatus(0);
+				udao.update(existingUser);
+				return;
+			}
+			
+			if(!errorCode.equals("200")){
+				User existingUser = udao.getUserDetails(user);
+				existingUser.setUserError(1);
+				udao.update(existingUser);
+				
+				return;
 			}
 			
 			new UserInfoBAO().getUserData(userId);

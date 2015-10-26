@@ -23,8 +23,9 @@ public class CommentsBAO {
 	
 	private static Logger logger = Logger.getLogger(CommentsBAO.class);
 	CommentsDAO dao = CommentsDAO.getCommentsDao();
+	PostDAO pdao = PostDAO.getPostDao();
 	
-	public void getCommentsData(String postId, String accessToken){
+	public void getCommentsData(String postId, String accessToken) throws Exception{
 		
 			String response = InstaAPIWrapper.call(InstaAPIEndPoints.POST_COMMENTS.replaceAll("\\{media-id\\}", postId), InstaAPIEndPoints.getAccessToken());
 			
@@ -38,6 +39,26 @@ public class CommentsBAO {
 			
 			
 			if(object==null){
+				return;
+			}
+			
+			JSONObject metaObject =  (JSONObject)object.get("meta");
+			String errorCode = (String)metaObject.get("code");
+
+			Post post = new Post();
+			post.setPostId(postId);
+			if(errorCode.equals("429")){
+				
+				Post existingPost = pdao.getPostDetails(post);
+				existingPost.setStatus(0);
+				pdao.update(existingPost);
+				return;
+			}
+			
+			if(!errorCode.equals("200")){
+				Post existingPost = pdao.getPostDetails(post);
+				existingPost.setErrorComment(1);
+				pdao.update(existingPost);
 				return;
 			}
 			

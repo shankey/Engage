@@ -2,13 +2,15 @@ package com.engage.api.wrapper;
 
 import java.util.HashMap;
 
+import ch.qos.logback.classic.Logger;
+
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
 //import org.json.simple.parser.ParseException;
 
 public class InstaAPIWrapper {
 	
-	public static String call(String api, String accessToken){
+	public static String call(String api, String accessToken) throws Exception{
 		HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", accessToken);
         
@@ -21,7 +23,7 @@ public class InstaAPIWrapper {
         	response = apiClient.executeCall();
             apiClient.disconnect();
         } catch(Exception e) {
-        	e.printStackTrace();
+        	throw e;
         }
         
         if(response != null){
@@ -86,12 +88,14 @@ public class InstaAPIWrapper {
 	}	
 		
 
-	public static void main2(String[] args) {		
+	public static void main(String[] args) {		
 		
 		long unixTime = System.currentTimeMillis() / 1000L;
 		long unixTime30DayPrevious = unixTime - (30 * 24 * 60 * 60);
         String response = callTimeLine(InstaAPIEndPoints.TIMELINE_URL, "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59", 
         		unixTime30DayPrevious, null);
+        
+        System.out.println(response);
         
 //        JSONParser parser = new JSONParser();
 //        try {

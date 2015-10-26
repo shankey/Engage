@@ -17,7 +17,7 @@ public class UserInfoBAO {
 	private static Logger logger = Logger.getLogger(UserInfoBAO.class);
 	UserDAO udao = UserDAO.getUserDao();
 	
-	public void getUserData(String userId){
+	public void getUserData(String userId) throws Exception{
 		String response = InstaAPIWrapper.call(InstaAPIEndPoints.PROFILE_BIO.replaceAll("\\{user-id\\}", userId), 
 				InstaAPIEndPoints.getAccessToken());
 		System.out.println("bansal "+response);

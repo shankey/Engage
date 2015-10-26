@@ -25,8 +25,9 @@ public class LikesBAO {
 	
 	private static Logger logger = Logger.getLogger(LikesBAO.class);
 	LikesDAO dao = LikesDAO.getLikesDao();
+	PostDAO pdao = PostDAO.getPostDao();
 	
-	public void getLikesData(String postId, String accessToken){
+	public void getLikesData(String postId, String accessToken) throws Exception{
 		
 			String response = InstaAPIWrapper.call(InstaAPIEndPoints.POST_LIKES.replaceAll("\\{media-id\\}", postId), InstaAPIEndPoints.getAccessToken());
 			
@@ -40,6 +41,27 @@ public class LikesBAO {
 			
 			
 			if(object==null){
+				return;
+			}
+
+			
+			JSONObject metaObject =  (JSONObject)object.get("meta");
+			String errorCode = (String)metaObject.get("code");
+
+			Post post = new Post();
+			post.setPostId(postId);
+			if(errorCode.equals("429")){
+				
+				Post existingPost = pdao.getPostDetails(post);
+				existingPost.setStatus(0);
+				pdao.update(existingPost);
+				return;
+			}
+			
+			if(!errorCode.equals("200")){
+				Post existingPost = pdao.getPostDetails(post);
+				existingPost.setErrorLikes(1);
+				pdao.update(existingPost);
 				return;
 			}
 			
