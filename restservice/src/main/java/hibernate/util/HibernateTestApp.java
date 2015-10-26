@@ -3,8 +3,8 @@ package hibernate.util;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import com.engage.bao.FollowersBAO;
 import com.engage.bao.UserInfoBAO;
-import com.engage.common.Log;
 import com.mchange.v2.log.MLevel;
 
 import hibernate.bean.Post;
@@ -33,7 +33,7 @@ public class HibernateTestApp {
        qThread.start();
        dbThread.start();
 		
-//		new UserInfoBAO().getUserData("781685528");
+		new UserInfoBAO().getUserData("781685528");
 
 	}
 }

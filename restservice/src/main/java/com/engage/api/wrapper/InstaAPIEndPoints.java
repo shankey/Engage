@@ -14,19 +14,15 @@ public class InstaAPIEndPoints {
 	public static final String TIMELINE_URL = "/v1/users/781685528/media/recent";
 //	public static final String ACCESS_TOKEN = "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59";
 	
-	public static String[] accessTokenArray = new String[6];{
-		accessTokenArray[0] = "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59";
-		accessTokenArray[1] = "1981378059.1fb234f.4a3c1f2247574dbba368c6fd97770413";
-		accessTokenArray[2] = "1684391253.1fb234f.a8428e90016949c9be89f43741d8aca9";
-		accessTokenArray[3] = "2237079458.1fb234f.a4b171ec6df54c6dbfe0fedf328086e4";
-		accessTokenArray[4] = "2129444282.1fb234f.68a01dfff8be49d58d449517b640c5f5 ";
-//		accessTokenArray[5] = "1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59";
-	}
+	public static String[] accessTokenArray = new String[]{
+		"1981378059.47b3f0d.b673deeeedf941d294d383aa6db9da59", "1981378059.1fb234f.4a3c1f2247574dbba368c6fd97770413",
+		"1684391253.1fb234f.a8428e90016949c9be89f43741d8aca9", "2237079458.1fb234f.a4b171ec6df54c6dbfe0fedf328086e4",
+		"2129444282.1fb234f.68a01dfff8be49d58d449517b640c5f5", "2252074779.1fb234f.71be2229504d43e4ac133d7abb30b649"};
 	public static int currentAccessTokenNo = -1; 
 	
 	public static String getAccessToken() {
 		currentAccessTokenNo++;
-		if(currentAccessTokenNo == accessTokenArray.length) {
+		if(currentAccessTokenNo >= accessTokenArray.length) {
 			currentAccessTokenNo = 0;
 		}
 		return accessTokenArray[currentAccessTokenNo];

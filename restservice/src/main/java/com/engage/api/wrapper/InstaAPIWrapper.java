@@ -62,7 +62,7 @@ public class InstaAPIWrapper {
 	public static String getFollowers(String api, String accessToken, String nextCursor){
 		HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", accessToken);
-        if(nextCursor != null) {
+        if(nextCursor != null && !nextCursor.equals("")) {
             postData.put("next_cursor", nextCursor);
         }
         
