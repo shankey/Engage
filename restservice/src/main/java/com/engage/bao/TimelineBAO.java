@@ -1,5 +1,6 @@
 package com.engage.bao;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,56 @@ public class TimelineBAO {
 	PostDAO dao = PostDAO.getPostDao();
 	UserDAO udao = UserDAO.getUserDao();
 	
-	public void getTimelineData(String userId) throws Exception{
+	private Boolean checkStatusCodes(String errorCode, User user){
+		if(errorCode.equals("429")){
+			
+			User existingUser = udao.getUserDetails(user);
+			existingUser.setStatus(0);
+			udao.update(existingUser);
+			return false;
+		}
+		
+		if(!errorCode.equals("200")){
+			User existingUser = udao.getUserDetails(user);
+			existingUser.setUserError(1);
+			udao.update(existingUser);
+			
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private void saveNumberOfLikesAndCommentsOnPost(JSONObject dataJsonObj, Post post){
+		
+		//Stoing likes count
+		JSONObject likesJson = (JSONObject)dataJsonObj.get("likes");
+		if(likesJson!=null){
+			Long likesCount = (Long)likesJson.get("count");
+			if(likesCount!=null){
+				post.setLikes(likesCount);
+			}
+			else {
+				post.setLikes(0l);
+			}
+		}
+		
+
+		//Storing the Comments count
+		JSONObject commentsJson = (JSONObject)dataJsonObj.get("comments");
+		
+		if(commentsJson!=null){
+			Long commentsCount = (Long)commentsJson.get("count");
+			if(commentsCount!=null){
+				post.setComments(commentsCount);
+			}
+			else {
+				post.setComments(0l);
+			}
+		}
+	}
+	
+	public void getTimelineData(String userId, Boolean isImmediate) throws Exception{
 		
 		String maxId = null;
 		
@@ -48,26 +98,16 @@ public class TimelineBAO {
 			}
 			
 			JSONObject metaObject =  (JSONObject)object.get("meta");
-			String errorCode = (String)metaObject.get("code");
+			String errorCode = (String)metaObject.get("code").toString();
 
 			User user = new User();
 			user.setUserId(userId);
-			if(errorCode.equals("429")){
-				
-				User existingUser = udao.getUserDetails(user);
-				existingUser.setStatus(0);
-				udao.update(existingUser);
+			
+			if(!checkStatusCodes(errorCode, user)){
 				return;
 			}
 			
-			if(!errorCode.equals("200")){
-				User existingUser = udao.getUserDetails(user);
-				existingUser.setUserError(1);
-				udao.update(existingUser);
-				
-				return;
-			}
-			
+			//save user personal data
 			new UserInfoBAO().getUserData(userId);
 			
 			JSONArray dataJson = (JSONArray)object.get("data");
@@ -79,55 +119,58 @@ public class TimelineBAO {
 				//Amits code to save comments and likes
 				Post post = new Post();
 				
-				//Storing the ownerId
 				post.setOwnerId(userId);
-				
-				//Storing the postId
-				System.out.println((String)dataJsonObj.get("id"));
 				post.setPostId((String)dataJsonObj.get("id"));
-				System.out.println("Querying with "+post);
 				
 				
-				
-				//Storing the Likes count
-				JSONObject likesJson = (JSONObject)dataJsonObj.get("likes");
-				if(likesJson!=null){
-					Long likesCount = (Long)likesJson.get("count");
-					if(likesCount!=null){
-						post.setLikes(likesCount);
-					}
-					else {
-						post.setLikes(0l);
-					}
-				}
-				
-
-				//Storing the Comments count
-				JSONObject commentsJson = (JSONObject)dataJsonObj.get("comments");
-				
-				if(commentsJson!=null){
-					Long commentsCount = (Long)commentsJson.get("count");
-					if(commentsCount!=null){
-						post.setComments(commentsCount);
-					}
-					else {
-						post.setComments(0l);
-					}
-				}
+				post.setPostCreated(Timestamp.valueOf((String)dataJsonObj.get("created_time")));
+				saveNumberOfLikesAndCommentsOnPost(dataJsonObj, post);
 				
 				System.out.println(post.toString());
 				Post exisitngPost = dao.getPostDetails(post);
+				
+				//Old Post
 				if(exisitngPost!=null){
 					
-					exisitngPost.setLikes(post.getLikes());
-					exisitngPost.setComments(post.getComments());
+					//If Likes have changed
+					if(exisitngPost.getLikes()!=post.getLikes()){
+						exisitngPost.setLikes(post.getLikes());
+						if(isImmediate){
+							//trigger comments and likes
+							new LikesBAO().getLikesData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+						}
+					}
+					
+					//If comments have changed
+					if(exisitngPost.getComments()!=post.getComments()){
+						if(exisitngPost.getComments()!=post.getComments()){
+							exisitngPost.setComments(post.getComments());
+							if(isImmediate){
+								//trigger comments and likes
+								new CommentsBAO().getCommentsData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+							}
+						}	
+					}
+					if(!isImmediate){
+						exisitngPost.setStatus(0);
+					}
+					
 					batchedSave.add(exisitngPost);
 					
+				//New Post
 				}else{
-					post.setStatus(0);
+					if(isImmediate){
+						new LikesBAO().getLikesData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+						new CommentsBAO().getCommentsData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+					}else{
+						post.setStatus(0);
+					}
+					
 					batchedSave.add(post);
 				}	
 			}
+			
+			
 			
 			dao.batchUpdate(batchedSave);
 			

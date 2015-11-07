@@ -1,5 +1,7 @@
 package hibernate.bean;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +24,7 @@ public class Post {
 	private Integer status;
 	private Integer errorComment;
 	private Integer errorLikes;
+	private Timestamp postCreated;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,6 +104,14 @@ public class Post {
 	}
 	public void setErrorLikes(Integer errorLikes) {
 		this.errorLikes = errorLikes;
+	}
+	
+	@Column(name = "PostCreated")
+	public Timestamp getPostCreated() {
+		return postCreated;
+	}
+	public void setPostCreated(Timestamp postCreated) {
+		this.postCreated = postCreated;
 	}
 	
 	public String toString(){

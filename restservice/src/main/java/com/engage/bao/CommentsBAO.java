@@ -1,7 +1,9 @@
 package com.engage.bao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import hibernate.bean.Comments;
 import hibernate.bean.Post;
@@ -43,7 +45,7 @@ public class CommentsBAO {
 			}
 			
 			JSONObject metaObject =  (JSONObject)object.get("meta");
-			String errorCode = (String)metaObject.get("code");
+			String errorCode = (String)metaObject.get("code").toString();
 
 			Post post = new Post();
 			post.setPostId(postId);
@@ -68,18 +70,34 @@ public class CommentsBAO {
 			
 			List<Comments> commentList = new ArrayList<Comments>();
 			
+			Comments queryComment = new Comments();
+			queryComment.setPostId(postId);
+			List<Comments> exsitingComments = CommentsDAO.getCommentsDao().getCommentsDetails(queryComment);
+			Set<String> dbCommentIds = new HashSet<String>();
+			
+			if(exsitingComments!=null){
+				for(Comments comment: exsitingComments){
+					dbCommentIds.add(comment.getCommentId());
+				}
+			}
+			
+			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
 				JSONObject fromJson = (JSONObject) dataJsonObj.get("from");
 				String commentHandle = (String) fromJson.get("username");
 				String commentId = (String) dataJsonObj.get("id");
 				
-				Comments comment = new Comments();
-				comment.setCommentHandle(commentHandle);
-				comment.setCommentId(commentId);
-				comment.setPostId(postId);
+				if(exsitingComments.contains(commentId)){
+					Comments comment = new Comments();
+					comment.setCommentHandle(commentHandle);
+					comment.setCommentId(commentId);
+					comment.setPostId(postId);
+					
+					commentList.add(comment);
+				}
 				
-				commentList.add(comment);
+				
 			}
 			dao.batchUpdate(commentList);
 	}

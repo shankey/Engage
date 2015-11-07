@@ -31,15 +31,11 @@ import hibernate.dao.UserDAO;
 			case 1 :
 				User user = (User)object.getObj();
 				try {
-					new TimelineBAO().getTimelineData(user.getUserId());
+					new TimelineBAO().getTimelineData(user.getUserId(), false);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					User existingUser = UserDAO.getUserDao().getUserDetails(user);
-					if(existingUser.getStatus()<3){
-						existingUser.setStatus(existingUser.getStatus()+1);
-					}else{
-						existingUser.setStatus(-1);
-					}
+					existingUser.setUserError(1);
 					UserDAO.getUserDao().update(existingUser);
 					logger.error("Error while processing User "+user);
 					
@@ -53,11 +49,7 @@ import hibernate.dao.UserDAO;
 					Post post = new Post();
 					post.setPostId(postLike.getPostId());
 					Post existingPost = PostDAO.getPostDao().getPostDetails(post);
-					if(existingPost.getStatus()<3){
-						existingPost.setStatus(existingPost.getStatus()+1);
-					}else{
-						existingPost.setStatus(-1);
-					}
+					existingPost.setErrorLikes(1);
 					PostDAO.getPostDao().update(existingPost);
 					logger.error("Error while processing Post "+postLike);
 					
@@ -71,11 +63,7 @@ import hibernate.dao.UserDAO;
 					Post post = new Post();
 					post.setPostId(postComment.getPostId());
 					Post existingPost = PostDAO.getPostDao().getPostDetails(post);
-					if(existingPost.getStatus()<3){
-						existingPost.setStatus(existingPost.getStatus()+1);
-					}else{
-						existingPost.setStatus(-1);
-					}
+					existingPost.setErrorComment(1);
 					PostDAO.getPostDao().update(existingPost);
 					logger.error("Error while processing Post "+postComment);
 				}

@@ -88,7 +88,7 @@ public class InstaAPIWrapper {
 	}	
 		
 
-	public static void main(String[] args) {		
+	public static void main2(String[] args) {		
 		
 		long unixTime = System.currentTimeMillis() / 1000L;
 		long unixTime30DayPrevious = unixTime - (30 * 24 * 60 * 60);

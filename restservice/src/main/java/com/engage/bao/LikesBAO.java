@@ -46,7 +46,7 @@ public class LikesBAO {
 
 			
 			JSONObject metaObject =  (JSONObject)object.get("meta");
-			String errorCode = (String)metaObject.get("code");
+			String errorCode = (String)metaObject.get("code").toString();
 
 			Post post = new Post();
 			post.setPostId(postId);

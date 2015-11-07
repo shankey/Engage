@@ -49,7 +49,7 @@ public void pollQueue() throws InterruptedException, IOException{
 				Log.write(queueObject.toString() + "\n");
 				
 			}
-			Thread.sleep(Utility.SECOND*1); // 1 minute wait
+			Thread.sleep(Utility.SECOND*60); // 1 minute wait
 		}
 	}
 

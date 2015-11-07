@@ -5,10 +5,10 @@
 <hibernate-configuration>
  <session-factory>
   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="hibernate.connection.url">jdbc:mysql://engage.cueoz9ystcnm.us-east-1.rds.amazonaws.com:3306/Engage</property>
+  <property name="hibernate.connection.url">jdbc:mysql://engage.ca78l9msjwmh.us-west-2.rds.amazonaws.com:3306/Engage</property>
   <property name="hibernate.connection.username">Engage</property>
   <property name="hibernate.connection.password">Startup123#</property>
-  <property name="hibernate.default_schema">test</property>
+  <property name="hibernate.default_schema">Engage</property>
   <property name="show_sql">true</property>
   
   <property name="hibernate.c3p0.min_size">5</property>
@@ -22,7 +22,9 @@
   
   <mapping class="hibernate.bean.Test"></mapping>
   <mapping class="hibernate.bean.Url"></mapping>
-  <mapping class="hibernate.bean.SkuDetails"></mapping>
-  <mapping class="hibernate.bean.JiniboxSkuDetails"></mapping>
+  <mapping class="hibernate.bean.User"></mapping>
+  <mapping class="hibernate.bean.Post"></mapping>
+  <mapping class="hibernate.bean.Likes"></mapping>
+  <mapping class="hibernate.bean.Comments"></mapping>
 </session-factory>
 </hibernate-configuration>
