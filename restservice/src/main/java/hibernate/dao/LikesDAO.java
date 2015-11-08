@@ -8,6 +8,7 @@ import hibernate.util.HibernateUtil;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -23,6 +24,17 @@ public class LikesDAO {
 	
 	public static LikesDAO getLikesDao(){
 		return dao;
+	}
+	
+	public List getAllByNative(String sql){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		SQLQuery query = session.createSQLQuery(sql);
+		query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		List results = query.list();
+		
+		session.close();
+		return results;
 	}
 	
 	public List<Likes> getLikesDetails(Likes likes){
