@@ -1,7 +1,9 @@
 package com.engage.bao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import hibernate.bean.Comments;
 import hibernate.bean.Likes;
@@ -70,6 +72,17 @@ public class LikesBAO {
 			System.out.println(dataJson);
 			
 			List<Likes> likeList = new ArrayList<Likes>();
+		
+			Likes queryLike = new Likes();
+			queryLike.setPostId(postId);
+			List<Likes> exsitingLikes = dao.getLikesDetails(queryLike);
+			Set<String> dbLikeHandles = new HashSet<String>();
+			
+			if(exsitingLikes!=null){
+				for(Likes like: exsitingLikes){
+					dbLikeHandles.add(like.getLikeHandle());
+				}
+			}
 			
 			for(int i=0; i<dataJson.size(); i++){
 				JSONObject dataJsonObj = (JSONObject)dataJson.get(i);
@@ -77,11 +90,14 @@ public class LikesBAO {
 				String likeHandle = (String) dataJsonObj.get("username");
 				String likeId = (String) dataJsonObj.get("id");
 				
-				Likes like = new Likes();
-				like.setLikeHandle(likeHandle);
-				like.setLikeId(likeId);
-				like.setPostId(postId);
-				likeList.add(like);
+				if(!dbLikeHandles.contains(likeHandle)){
+					Likes like = new Likes();
+					like.setLikeHandle(likeHandle);
+					like.setLikeId(likeId);
+					like.setPostId(postId);
+					likeList.add(like);
+				}
+				
 				
 				
 			}

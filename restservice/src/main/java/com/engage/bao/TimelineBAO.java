@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import hibernate.bean.Comments;
 import hibernate.bean.Post;
 import hibernate.bean.QueueObject;
 import hibernate.bean.User;
@@ -121,14 +122,16 @@ public class TimelineBAO {
 				
 				post.setOwnerId(userId);
 				post.setPostId((String)dataJsonObj.get("id"));
+				Timestamp createdTimestamp = new Timestamp(Long.parseLong((String)dataJsonObj.get("created_time")));
 				
-				
-				post.setPostCreated(Timestamp.valueOf((String)dataJsonObj.get("created_time")));
+				post.setPostCreated(createdTimestamp);
 				saveNumberOfLikesAndCommentsOnPost(dataJsonObj, post);
 				
 				System.out.println(post.toString());
 				Post exisitngPost = dao.getPostDetails(post);
 				
+				List<Post> likePostSync = new ArrayList<Post>();
+				List<Post> commentsPostSync = new ArrayList<Post>();
 				//Old Post
 				if(exisitngPost!=null){
 					
@@ -137,7 +140,8 @@ public class TimelineBAO {
 						exisitngPost.setLikes(post.getLikes());
 						if(isImmediate){
 							//trigger comments and likes
-							new LikesBAO().getLikesData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+							likePostSync.add(post);
+							//
 						}
 					}
 					
@@ -147,27 +151,40 @@ public class TimelineBAO {
 							exisitngPost.setComments(post.getComments());
 							if(isImmediate){
 								//trigger comments and likes
-								new CommentsBAO().getCommentsData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+								commentsPostSync.add(post);
 							}
 						}	
 					}
+					
 					if(!isImmediate){
 						exisitngPost.setStatus(0);
+						batchedSave.add(exisitngPost);
+					}else{
+						exisitngPost.setStatus(1);
+						dao.update(exisitngPost);
+						
 					}
-					
-					batchedSave.add(exisitngPost);
 					
 				//New Post
 				}else{
 					if(isImmediate){
-						new LikesBAO().getLikesData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
-						new CommentsBAO().getCommentsData(post.getPostId(), InstaAPIEndPoints.getAccessToken());
+						likePostSync.add(post);
+						commentsPostSync.add(post);
+						dao.update(post);
 					}else{
 						post.setStatus(0);
+						batchedSave.add(post);
 					}
 					
-					batchedSave.add(post);
-				}	
+					
+				}
+				for(Post likePost: likePostSync){
+					new LikesBAO().getLikesData(likePost.getPostId(), InstaAPIEndPoints.getAccessToken());
+				}
+				
+				for(Post commentPost: commentsPostSync){
+					new LikesBAO().getLikesData(commentPost.getPostId(), InstaAPIEndPoints.getAccessToken());
+				}
 			}
 			
 			

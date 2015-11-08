@@ -88,7 +88,7 @@ public class CommentsBAO {
 				String commentHandle = (String) fromJson.get("username");
 				String commentId = (String) dataJsonObj.get("id");
 				
-				if(exsitingComments.contains(commentId)){
+				if(!exsitingComments.contains(commentId)){
 					Comments comment = new Comments();
 					comment.setCommentHandle(commentHandle);
 					comment.setCommentId(commentId);

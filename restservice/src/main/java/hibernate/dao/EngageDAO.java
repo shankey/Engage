@@ -43,9 +43,9 @@ public class EngageDAO {
 		try{
 
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			Criteria cr = session.createCriteria(User.class);
+			Criteria cr = session.createCriteria(Engagement.class);
 			
-			cr.add(Restrictions.le("userId", engage.getUserId()));
+			cr.add(Restrictions.eq("userId", engage.getUserId()));
 
 			List<Engagement> result = (List<Engagement>)cr.list();
 			session.close();

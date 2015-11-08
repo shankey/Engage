@@ -34,7 +34,7 @@ public class CommentsDAO {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Criteria cr = session.createCriteria(Comments.class);
 			
-			cr.add(Restrictions.le("postId", comments.getPostId()));
+			cr.add(Restrictions.eq("postId", comments.getPostId()));
 
 			List<Comments> result = (List<Comments>)cr.list();
 			session.close();

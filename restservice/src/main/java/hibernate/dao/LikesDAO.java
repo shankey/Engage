@@ -42,9 +42,9 @@ public class LikesDAO {
 		try{
 
 			Session session = HibernateUtil.getSessionFactory().openSession();
-			Criteria cr = session.createCriteria(User.class);
+			Criteria cr = session.createCriteria(Likes.class);
 			
-			cr.add(Restrictions.le("postId", likes.getPostId()));
+			cr.add(Restrictions.eq("postId", likes.getPostId()));
 
 			List<Likes> result = (List<Likes>)cr.list();
 			session.close();
