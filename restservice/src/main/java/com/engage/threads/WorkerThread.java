@@ -43,6 +43,7 @@ import hibernate.dao.UserDAO;
 				break;
 			case 2 :
 				Post postLike = (Post)object.getObj();
+
 				try {
 					new LikesBAO().getLikesData(postLike.getPostId(), InstaAPIEndPoints.getAccessToken());
 				} catch (Exception e) {
@@ -54,9 +55,11 @@ import hibernate.dao.UserDAO;
 					logger.error("Error while processing Post "+postLike);
 					
 				}
+
 				break;
 			case 3 :
 				Post postComment = (Post)object.getObj();
+
 				try {
 					new CommentsBAO().getCommentsData(postComment.getPostId(), InstaAPIEndPoints.getAccessToken());
 				} catch (Exception e) {
@@ -67,6 +70,7 @@ import hibernate.dao.UserDAO;
 					PostDAO.getPostDao().update(existingPost);
 					logger.error("Error while processing Post "+postComment);
 				}
+
 				break;
 		
 		}
