@@ -34,12 +34,15 @@ public class InstaAPIWrapper {
         	
 	}
 	
-	public static String callTimeLine(String api, String accessToken, Long timeStamp, String maxId){
+	public static String callTimeLine(String api, String accessToken, Long timeStamp, String maxId, String count){
 		HashMap<String, String> postData = new HashMap<>();
         postData.put("access_token", accessToken);
         postData.put("min_timestamp", timeStamp.toString());
         if(maxId != null) {
             postData.put("max_id", maxId.toString());
+        }
+        if(count != null) {
+            postData.put("count", maxId.toString());
         }
         
         String url = InstaAPIEndPoints.SCHEME_HTTPS + InstaAPIEndPoints.BASE_URL + api;
