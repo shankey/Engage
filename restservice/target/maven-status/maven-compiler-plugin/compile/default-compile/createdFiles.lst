@@ -1,9 +1,0 @@
-hibernate/bean/Test.class
-hibernate/bean/Url.class
-hibernate/util/HibernateTestApp.class
-hibernate/util/HibernateUtil.class
-com/engage/api/wrapper/ApiClient$1.class
-poller/Queues.class
-servicecontroller/Greeting.class
-poller/DBPoller.class
-hibernate/util/UrlDAO.class
