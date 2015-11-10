@@ -7,6 +7,7 @@ import poller.DBPoller;
 import poller.QueuePoller;
 
 import com.engage.api.wrapper.InstaAPIEndPoints;
+import com.engage.bao.RecentPostsBAO;
 import com.engage.bao.TimelineBAO;
 import com.engage.common.Log;
  
@@ -40,7 +41,6 @@ public class HibernateTestApp {
 //		new UserInfoBAO().getUserData("781685528");
 		
 		new TimelineBAO().getTimelineData("2261333272", true);
-
 		
 //		new Log();
 //		System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");

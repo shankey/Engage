@@ -97,10 +97,8 @@ public class LikesBAO {
 					like.setPostId(postId);
 					likeList.add(like);
 				}
-				
-				
-				
 			}
+			
 			dao.batchUpdate(likeList);
 	}
 
